@@ -3,581 +3,993 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Site Builder</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
 
-:root {
-  --bg: #080a0f;
-  --panel: #10131a;
-  --panel2: #151922;
-  --border: #262c38;
-  --text: #f5f7fb;
-  --muted: #929aaa;
-  --accent: #7c5cff;
-  --accent2: #5b8cff;
-  --preview-bg: #eef1f6;
+:root{
+  --bg:#080a0f;
+  --panel:#10131a;
+  --panel2:#151922;
+  --border:#262c38;
+  --text:#f5f7fb;
+  --muted:#929aaa;
+  --accent:#7c5cff;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
 }
 
-body {
-  font-family: "Inter", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
+button,input,textarea,select{font:inherit}
+
+button{cursor:pointer}
+
+.topbar{
+  height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 24px;
+  border-bottom:1px solid var(--border);
+  background:#080a0fee;
+  position:sticky;
+  top:0;
+  z-index:20;
 }
 
-button,
-input,
-textarea,
-select {
-  font-family: inherit;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-button {
-  cursor: pointer;
+.logo{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  background:linear-gradient(135deg,#7c5cff,#4f8cff);
+  box-shadow:0 0 25px #7c5cff55;
 }
 
-/* TOP BAR */
-
-.topbar {
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(8,10,15,.94);
-  backdrop-filter: blur(18px);
-  position: sticky;
-  top: 0;
-  z-index: 50;
+.brand-name{
+  font-size:24px;
+  font-weight:800;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.brand-name span{color:#a995ff}
+
+.actions{
+  display:flex;
+  gap:9px;
 }
 
-.brand-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  display: grid;
-  place-items: center;
-  font-weight: 800;
-  font-size: 18px;
-  box-shadow: 0 0 25px rgba(124,92,255,.35);
+.btn{
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:white;
+  padding:10px 15px;
+  border-radius:9px;
+  font-weight:700;
 }
 
-.brand-name {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 25px;
-  font-weight: 700;
-  letter-spacing: -.7px;
+.btn:hover{border-color:#697386}
+
+.btn.primary{
+  border:0;
+  background:linear-gradient(135deg,#7c5cff,#5b8cff);
 }
 
-.brand-name span {
-  color: #a995ff;
+.layout{
+  display:grid;
+  grid-template-columns:350px 1fr;
+  min-height:calc(100vh - 70px);
 }
 
-.top-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
+.sidebar{
+  border-right:1px solid var(--border);
+  background:#0d1016;
+  overflow:auto;
+  height:calc(100vh - 70px);
 }
 
-.top-button {
-  border: 1px solid var(--border);
-  background: var(--panel);
-  color: var(--text);
-  border-radius: 9px;
-  padding: 10px 15px;
-  font-weight: 600;
-  transition: .2s;
+.intro{
+  padding:24px;
+  border-bottom:1px solid var(--border);
 }
 
-.top-button:hover {
-  border-color: #50596c;
-  transform: translateY(-1px);
+.intro h1{
+  font-size:25px;
+  margin-bottom:7px;
 }
 
-.top-button.primary {
-  border: 0;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
+.intro p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
 }
 
-/* MAIN */
-
-.workspace {
-  display: grid;
-  grid-template-columns: 350px 1fr;
-  min-height: calc(100vh - 70px);
+.group{
+  padding:20px;
+  border-bottom:1px solid var(--border);
 }
 
-/* EDITOR */
-
-.editor {
-  background: #0d1016;
-  border-right: 1px solid var(--border);
-  overflow-y: auto;
-  height: calc(100vh - 70px);
+.group h2{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:#bfc6d4;
+  margin-bottom:15px;
 }
 
-.editor-header {
-  padding: 24px;
-  border-bottom: 1px solid var(--border);
+.field{
+  margin-bottom:14px;
 }
 
-.editor-header h1 {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 24px;
-  margin-bottom: 6px;
+.field:last-child{margin-bottom:0}
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  color:#cbd1dc;
+  margin-bottom:7px;
 }
 
-.editor-header p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.5;
+input,textarea,select{
+  width:100%;
+  background:#090c11;
+  border:1px solid var(--border);
+  color:white;
+  border-radius:9px;
+  padding:11px;
+  outline:none;
+  font-size:13px;
 }
 
-.section {
-  padding: 20px 22px;
-  border-bottom: 1px solid var(--border);
+textarea{
+  min-height:75px;
+  resize:vertical;
 }
 
-.section-title {
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 800;
-  color: #b7bfce;
-  margin-bottom: 15px;
+input:focus,textarea:focus,select:focus{
+  border-color:#7c5cff;
+  box-shadow:0 0 0 3px #7c5cff18;
 }
 
-.field {
-  margin-bottom: 15px;
+input[type=color]{
+  height:43px;
+  padding:4px;
 }
 
-.field:last-child {
-  margin-bottom: 0;
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
 }
 
-.field label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: #c6ccd7;
-  margin-bottom: 7px;
+.hint{
+  color:#737c8d;
+  font-size:11px;
+  margin-top:5px;
+  line-height:1.4;
 }
 
-.field small {
-  display: block;
-  margin-top: 6px;
-  color: #6f7787;
-  font-size: 11px;
-  line-height: 1.4;
+.toggle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#090c11;
+  border:1px solid var(--border);
+  padding:11px;
+  border-radius:9px;
+  margin-bottom:8px;
 }
 
-input,
-textarea,
-select {
-  width: 100%;
-  border: 1px solid var(--border);
-  background: #090c11;
-  color: var(--text);
-  border-radius: 9px;
-  padding: 11px 12px;
-  outline: none;
-  transition: .2s;
-  font-size: 13px;
+.toggle span{
+  font-size:12px;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(124,92,255,.1);
+.switch{
+  width:38px;
+  height:21px;
+  position:relative;
 }
 
-textarea {
-  min-height: 80px;
-  resize: vertical;
+.switch input{
+  opacity:0;
+  width:0;
+  height:0;
 }
 
-input[type="color"] {
-  height: 43px;
-  padding: 4px;
+.slider{
+  position:absolute;
+  inset:0;
+  border-radius:30px;
+  background:#303744;
 }
 
-.row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 9px;
+.slider:before{
+  content:"";
+  position:absolute;
+  width:15px;
+  height:15px;
+  left:3px;
+  top:3px;
+  border-radius:50%;
+  background:white;
+  transition:.2s;
 }
 
-.toggle-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 11px 12px;
-  background: #090c11;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  margin-bottom: 9px;
+.switch input:checked+.slider{
+  background:#7c5cff;
 }
 
-.toggle-row span {
-  font-size: 12px;
-  color: #d7dce5;
+.switch input:checked+.slider:before{
+  transform:translateX(17px);
 }
 
-.switch {
-  position: relative;
-  width: 39px;
-  height: 21px;
+.add{
+  width:100%;
+  border:1px dashed #3b4352;
+  background:#11151d;
+  color:#cbd2df;
+  padding:11px;
+  border-radius:9px;
+  font-weight:700;
 }
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  inset: 0;
-  background: #303744;
-  border-radius: 30px;
-  transition: .2s;
-}
-
-.slider:before {
-  content: "";
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  left: 3px;
-  top: 3px;
-  background: white;
-  border-radius: 50%;
-  transition: .2s;
-}
-
-.switch input:checked + .slider {
-  background: var(--accent);
-}
-
-.switch input:checked + .slider:before {
-  transform: translateX(18px);
-}
-
-/* PREVIEW AREA */
-
-.preview-area {
+.preview-area{
   background:
-    radial-gradient(circle at 50% 10%, rgba(124,92,255,.09), transparent 35%),
+    radial-gradient(circle at 50% 0,#7c5cff13,transparent 35%),
     #090b10;
-  padding: 25px;
-  overflow: auto;
+  padding:24px;
+  overflow:auto;
 }
 
-.preview-toolbar {
-  display: flex;
-  justify-content: center;
-  gap: 7px;
-  margin-bottom: 18px;
+.toolbar{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:18px;
 }
 
-.view-button {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  color: #9da6b6;
-  padding: 9px 15px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 700;
+.view{
+  border:1px solid var(--border);
+  background:#10131a;
+  color:#aab2c0;
+  padding:9px 15px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:700;
 }
 
-.view-button.active {
-  color: white;
-  border-color: var(--accent);
-  background: rgba(124,92,255,.13);
+.view.active{
+  color:white;
+  border-color:#7c5cff;
+  background:#7c5cff18;
 }
 
-.preview-shell {
-  width: 100%;
-  min-height: calc(100vh - 155px);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+.frame-wrap{
+  display:flex;
+  justify-content:center;
 }
 
-.site-frame {
-  width: min(1100px, 100%);
-  background: white;
-  color: #111;
-  border-radius: 13px;
-  overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0,0,0,.35);
-  transition: width .35s ease;
+.site{
+  width:min(1100px,100%);
+  background:white;
+  color:#111;
+  border-radius:13px;
+  overflow:hidden;
+  box-shadow:0 30px 80px #0008;
+  transition:.3s;
 }
 
-.site-frame.mobile {
-  width: 390px;
+.site.mobile{width:390px}
+
+.site-nav{
+  min-height:68px;
+  padding:0 35px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:white;
 }
 
-/* GENERATED SITE */
-
-.generated-nav {
-  height: 70px;
-  padding: 0 35px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--site-color);
-  color: white;
+.site-brand{
+  font-size:21px;
+  font-weight:900;
 }
 
-.generated-logo {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 21px;
-  font-weight: 800;
+.nav{
+  display:flex;
+  gap:20px;
+  font-size:13px;
+  font-weight:700;
 }
 
-.nav-links {
-  display: flex;
-  gap: 22px;
-  font-size: 13px;
-  font-weight: 600;
+.hero{
+  min-height:480px;
+  padding:80px 40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:white;
+  background-position:center;
+  background-size:cover;
+  position:relative;
 }
 
-.hero {
-  min-height: 480px;
-  padding: 80px 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background:
-    radial-gradient(circle at 50% 20%, rgba(255,255,255,.13), transparent 30%),
-    var(--hero-bg);
-  color: white;
+.hero:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(#0005,#0008);
 }
 
-.hero-content {
-  max-width: 760px;
+.hero-content{
+  max-width:760px;
+  position:relative;
+  z-index:1;
 }
 
-.hero h1 {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(38px, 6vw, 68px);
-  line-height: 1.02;
-  letter-spacing: -2px;
-  margin-bottom: 22px;
+.hero h1{
+  font-size:clamp(40px,6vw,68px);
+  line-height:1;
+  letter-spacing:-2px;
+  margin-bottom:22px;
 }
 
-.hero p {
-  font-size: 18px;
-  line-height: 1.65;
-  opacity: .85;
-  margin-bottom: 30px;
+.hero p{
+  font-size:18px;
+  line-height:1.6;
+  opacity:.88;
+  margin-bottom:30px;
 }
 
-.hero-button {
-  display: inline-block;
-  padding: 14px 24px;
-  border-radius: 10px;
-  color: white;
-  text-decoration: none;
-  font-weight: 700;
-  background: var(--site-color);
-  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+.hero-button{
+  display:inline-block;
+  padding:14px 23px;
+  border-radius:10px;
+  color:white;
+  text-decoration:none;
+  font-weight:800;
 }
 
-.about {
-  padding: 80px 45px;
-  text-align: center;
+.section{
+  padding:75px 45px;
+  text-align:center;
 }
 
-.about h2,
-.services h2,
-.contact h2 {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 34px;
-  margin-bottom: 15px;
+.section.alt{
+  background:#f4f6f8;
 }
 
-.about p {
-  max-width: 700px;
-  margin: auto;
-  color: #5e6571;
-  line-height: 1.7;
+.section h2{
+  font-size:34px;
+  margin-bottom:15px;
 }
 
-.services {
-  padding: 75px 45px;
-  background: #f5f6f8;
-  text-align: center;
+.section-description{
+  max-width:700px;
+  margin:auto;
+  color:#68717e;
+  line-height:1.7;
 }
 
-.cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  max-width: 900px;
-  margin: 35px auto 0;
+.cards{
+  max-width:900px;
+  margin:35px auto 0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
 }
 
-.card {
-  background: white;
-  padding: 27px 20px;
-  border-radius: 15px;
-  border: 1px solid #e3e6eb;
-  text-align: left;
+.card{
+  background:white;
+  border:1px solid #e2e6eb;
+  border-radius:15px;
+  padding:25px;
+  text-align:left;
 }
 
-.card-icon {
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border-radius: 10px;
-  background: var(--soft-color);
-  color: var(--site-color);
-  font-size: 19px;
-  margin-bottom: 16px;
+.card-icon{
+  width:43px;
+  height:43px;
+  border-radius:11px;
+  display:grid;
+  place-items:center;
+  font-size:19px;
+  margin-bottom:15px;
 }
 
-.card h3 {
-  margin-bottom: 8px;
+.card h3{
+  margin-bottom:8px;
 }
 
-.card p {
-  color: #69717d;
-  font-size: 13px;
-  line-height: 1.6;
+.card p{
+  color:#69727e;
+  font-size:13px;
+  line-height:1.6;
 }
 
-.contact {
-  padding: 75px 45px;
-  text-align: center;
+.contact-info{
+  margin-top:25px;
+  line-height:2;
+  color:#626b78;
 }
 
-.contact-info {
-  margin-top: 25px;
-  color: #5e6571;
-  line-height: 2;
+.footer{
+  padding:25px;
+  text-align:center;
+  background:#101217;
+  color:#aeb6c2;
+  font-size:12px;
 }
 
-.generated-footer {
-  padding: 25px;
-  background: #101217;
-  color: #aeb5c0;
-  text-align: center;
-  font-size: 12px;
-}
+.hidden{display:none!important}
 
-/* EMPTY */
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}
 
-.empty-message {
-  padding: 50px;
-  text-align: center;
-  color: #9da4b1;
-}
-
-/* RESPONSIVE */
-
-@media(max-width: 850px) {
-
-  .workspace {
-    grid-template-columns: 1fr;
+  .sidebar{
+    height:auto;
+    border-right:0;
+    border-bottom:1px solid var(--border);
   }
 
-  .editor {
-    height: auto;
-    max-height: none;
-    border-right: 0;
-    border-bottom: 1px solid var(--border);
+  .cards{grid-template-columns:1fr}
+
+  .nav{display:none}
+
+  .hero,.section{
+    padding-left:25px;
+    padding-right:25px;
   }
 
-  .preview-area {
-    min-height: 700px;
-  }
-
-  .cards {
-    grid-template-columns: 1fr;
-  }
-
-  .nav-links {
-    display: none;
-  }
-
-  .generated-nav {
-    padding: 0 20px;
-  }
-
-  .hero,
-  .about,
-  .services,
-  .contact {
-    padding-left: 25px;
-    padding-right: 25px;
-  }
-
-  .top-actions .top-button:first-child {
-    display: none;
-  }
+  .actions .btn:first-child{display:none}
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP BAR -->
-
 <header class="topbar">
 
   <div class="brand">
-    <div class="brand-icon">S</div>
+    <div class="logo">S</div>
     <div class="brand-name">Site<span>Builder</span></div>
   </div>
 
-  <div class="top-actions">
-    <button class="top-button" onclick="resetSite()">
-      ↻ Reiniciar
-    </button>
-
-    <button class="top-button primary" onclick="downloadSite()">
-      ↓ Baixar site
-    </button>
+  <div class="actions">
+    <button class="btn" onclick="resetBuilder()">↻ Reiniciar</button>
+    <button class="btn primary" onclick="downloadSite()">↓ Baixar site</button>
   </div>
 
 </header>
 
 
-<div class="workspace">
+<div class="layout">
 
-<!-- EDITOR -->
+<aside class="sidebar">
 
-<aside class="editor">
-
-  <div class="editor-header">
+  <div class="intro">
     <h1>Crie seu site</h1>
     <p>
-      Personalize sua página e veja o resultado
-      aparecer instantaneamente na pré-visualização.
+      Monte sua página, personalize cada detalhe
+      e acompanhe o resultado em tempo real.
     </p>
   </div>
 
 
-  <!--
+  <div class="group">
+
+    <h2>Identidade</h2>
+
+    <div class="field">
+      <label>Nome da empresa ou projeto</label>
+      <input id="name" value="Minha Empresa" oninput="update()">
+    </div>
+
+    <div class="field">
+      <label>Título principal da página</label>
+      <input id="title" value="Seu próximo projeto começa aqui." oninput="update()">
+    </div>
+
+    <div class="field">
+      <label>Descrição principal</label>
+      <textarea id="description" oninput="update()">Crie uma presença online moderna, profissional e feita para você.</textarea>
+    </div>
+
+  </div>
+
+
+  <div class="group">
+
+    <h2>Design</h2>
+
+    <div class="grid2">
+
+      <div class="field">
+        <label>Cor principal</label>
+        <input id="color" type="color" value="#6d4aff" oninput="update()">
+      </div>
+
+      <div class="field">
+        <label>Cor do fundo</label>
+        <input id="heroColor" type="color" value="#151a2a" oninput="update()">
+      </div>
+
+    </div>
+
+    <div class="field">
+      <label>Estilo da fonte</label>
+      <select id="font" onchange="update()">
+        <option value="Inter">Moderna</option>
+        <option value="Arial">Clássica</option>
+        <option value="Georgia">Elegante</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Imagem de fundo da página</label>
+      <input id="image" placeholder="Cole aqui o endereço de uma imagem" oninput="update()">
+      <div class="hint">
+        Opcional. Se deixar vazio, será usado um fundo elegante.
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="group">
+
+    <h2>Botão principal</h2>
+
+    <div class="field">
+      <label>Texto que aparecerá no botão</label>
+      <input id="buttonText" value="Conheça nosso trabalho" oninput="update()">
+    </div>
+
+    <div class="field">
+      <label>Endereço aberto pelo botão</label>
+      <input id="buttonLink" value="#" placeholder="https://exemplo.com" oninput="update()">
+    </div>
+
+  </div>
+
+
+  <div class="group">
+
+    <h2>Sobre</h2>
+
+    <div class="field">
+      <label>Título da seção</label>
+      <input id="aboutTitle" value="Sobre nós" oninput="update()">
+    </div>
+
+    <div class="field">
+      <label>Conteúdo da seção</label>
+      <textarea id="aboutText" oninput="update()">Conte aqui a história da sua empresa, marca ou projeto. Explique quem você é e o que oferece.</textarea>
+    </div>
+
+  </div>
+
+
+  <div class="group">
+
+    <h2>Serviços</h2>
+
+    <div class="field">
+      <label>Serviço 1</label>
+      <input id="service1" value="Qualidade" oninput="update()">
+    </div>
+
+    <div class="field">
+      <label>Descrição do serviço 1</label>
+      <input id="service1Text" value="Soluções pensadas para você." oninput="update()">
+    </div>
+
+    <div class="field">
+      <label>Serviço 2</label>
+      <input id="service2" value="Tecnologia" oninput="update()">
+    </div>
+
+    <div class="field">
+      <label>Descrição do serviço 2</label>
+      <input id="service2Text" value="Ferramentas modernas e eficientes." oninput="update()">
+    </div>
+
+    <div class="field">
+      <label>Serviço 3</label>
+      <input id="service3" value="Suporte" oninput="update()">
+    </div>
+
+    <div class="field">
+      <label>Descrição do serviço 3</label>
+      <input id="service3Text" value="Estamos aqui para ajudar." oninput="update()">
+    </div>
+
+    <button class="add" onclick="addService()">
+      + Adicionar serviço
+    </button>
+
+  </div>
+
+
+  <div class="group">
+
+    <h2>Contato</h2>
+
+    <div class="field">
+      <label>WhatsApp / telefone</label>
+      <input id="phone" value="(00) 00000-0000" oninput="update()">
+    </div>
+
+    <div class="field">
+      <label>E-mail</label>
+      <input id="email" value="contato@exemplo.com" oninput="update()">
+    </div>
+
+    <div class="field">
+      <label>Cidade / localização</label>
+      <input id="address" value="Sua cidade — Brasil" oninput="update()">
+    </div>
+
+  </div>
+
+
+  <div class="group">
+
+    <h2>Seções</h2>
+
+    <div class="toggle">
+      <span>Mostrar Sobre</span>
+      <label class="switch">
+        <input id="showAbout" type="checkbox" checked onchange="update()">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="toggle">
+      <span>Mostrar Serviços</span>
+      <label class="switch">
+        <input id="showServices" type="checkbox" checked onchange="update()">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="toggle">
+      <span>Mostrar Contato</span>
+      <label class="switch">
+        <input id="showContact" type="checkbox" checked onchange="update()">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+  </div>
+
+</aside>
+
+
+<main class="preview-area">
+
+  <div class="toolbar">
+
+    <button id="desktop" class="view active" onclick="view('desktop')">
+      🖥 Computador
+    </button>
+
+    <button id="mobile" class="view" onclick="view('mobile')">
+      📱 Celular
+    </button>
+
+  </div>
+
+
+  <div class="frame-wrap">
+
+    <div id="site" class="site">
+
+      <nav id="nav" class="site-nav">
+
+        <div id="previewName" class="site-brand">
+          Minha Empresa
+        </div>
+
+        <div class="nav">
+          <span>Início</span>
+          <span>Sobre</span>
+          <span>Serviços</span>
+          <span>Contato</span>
+        </div>
+
+      </nav>
+
+
+      <section id="hero" class="hero">
+
+        <div class="hero-content">
+
+          <h1 id="previewTitle">
+            Seu próximo projeto começa aqui.
+          </h1>
+
+          <p id="previewDescription">
+            Crie uma presença online moderna, profissional e feita para você.
+          </p>
+
+          <a id="previewButton" class="hero-button" href="#" target="_blank">
+            Conheça nosso trabalho
+          </a>
+
+        </div>
+
+      </section>
+
+
+      <section id="about" class="section">
+
+        <h2 id="previewAboutTitle">
+          Sobre nós
+        </h2>
+
+        <p id="previewAboutText" class="section-description">
+          Conte aqui a história da sua empresa, marca ou projeto.
+        </p>
+
+      </section>
+
+
+      <section id="services" class="section alt">
+
+        <h2>O que oferecemos</h2>
+
+        <p class="section-description">
+          Apresente os principais produtos, serviços ou benefícios
+          da sua empresa.
+        </p>
+
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-icon" id="icon1">✦</div>
+            <h3 id="previewService1">Qualidade</h3>
+            <p id="previewService1Text">Soluções pensadas para você.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon" id="icon2">⚡</div>
+            <h3 id="previewService2">Tecnologia</h3>
+            <p id="previewService2Text">Ferramentas modernas e eficientes.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon" id="icon3">✓</div>
+            <h3 id="previewService3">Suporte</h3>
+            <p id="previewService3Text">Estamos aqui para ajudar.</p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section id="contact" class="section">
+
+        <h2>Entre em contato</h2>
+
+        <div class="contact-info">
+
+          <div id="previewPhone">📱 (00) 00000-0000</div>
+
+          <div id="previewEmail">✉ contato@exemplo.com</div>
+
+          <div id="previewAddress">📍 Sua cidade — Brasil</div>
+
+        </div>
+
+      </section>
+
+
+      <footer class="footer">
+        Criado com o <strong>SiteBuilder</strong>
+      </footer>
+
+    </div>
+
+  </div>
+
+</main>
+
+</div>
+
+
+<script>
+
+function el(id){
+  return document.getElementById(id);
+}
+
+function update(){
+
+  const name = el("name").value || "Minha Empresa";
+  const title = el("title").value || "Seu próximo projeto começa aqui.";
+  const description = el("description").value || "";
+  const color = el("color").value;
+  const heroColor = el("heroColor").value;
+  const image = el("image").value.trim();
+
+  el("previewName").textContent = name;
+  el("previewTitle").textContent = title;
+  el("previewDescription").textContent = description;
+
+  el("previewButton").textContent =
+    el("buttonText").value || "Conheça nosso trabalho";
+
+  el("previewButton").href =
+    el("buttonLink").value || "#";
+
+  el("previewAboutTitle").textContent =
+    el("aboutTitle").value || "Sobre nós";
+
+  el("previewAboutText").textContent =
+    el("aboutText").value || "";
+
+  el("previewService1").textContent =
+    el("service1").value || "Serviço";
+
+  el("previewService1Text").textContent =
+    el("service1Text").value || "";
+
+  el("previewService2").textContent =
+    el("service2").value || "Serviço";
+
+  el("previewService2Text").textContent =
+    el("service2Text").value || "";
+
+  el("previewService3").textContent =
+    el("service3").value || "Serviço";
+
+  el("previewService3Text").textContent =
+    el("service3Text").value || "";
+
+  document.documentElement.style.setProperty(
+    "--accent",
+    color
+  );
+
+  el("nav").style.background = color;
+
+  el("hero").style.backgroundColor = heroColor;
+
+  if(image){
+    el("hero").style.backgroundImage =
+      `url("${image}")`;
+  }else{
+    el("hero").style.backgroundImage =
+      `linear-gradient(#0004,#0008), ${heroColor}`;
+  }
+
+  el("previewButton").style.background = color;
+
+  document.querySelectorAll(".card-icon").forEach(icon=>{
+    icon.style.background = color + "22";
+    icon.style.color = color;
+  });
+
+  el("about").classList.toggle(
+    "hidden",
+    !el("showAbout").checked
+  );
+
+  el("services").classList.toggle(
+    "hidden",
+    !el("showServices").checked
+  );
+
+  el("contact").classList.toggle(
+    "hidden",
+    !el("showContact").checked
+  );
+
+  el("site").style.fontFamily =
+    el("font").value + ", sans-serif";
+}
+
+
+function view(mode){
+
+  if(mode === "mobile"){
+
+    el("site").classList.add("mobile");
+
+    el("mobile").classList.add("active");
+    el("desktop").classList.remove("active");
+
+  }else{
+
+    el("site").classList.remove("mobile");
+
+    el("desktop").classList.add("active");
+    el("mobile").classList.remove("active");
+
+  }
+}
+
+
+function addService(){
+
+  alert(
+    "A próxima versão permitirá criar blocos ilimitados de serviços. " +
+    "Os três primeiros já estão disponíveis nesta versão."
+  );
+
+}
+
+
+function resetBuilder(){
+
+  if(confirm("Voltar para as configurações iniciais?")){
+    location.reload();
+  }
+
+}
+
+
+function downloadSite(){
+
+  const clone = el("site").cloneNode(true);
+
+  clone.classList.remove("mobile");
+
+  const html =
+`<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>${el("name").value || "Meu Site"}</title>
+<style>
+${document.querySelector("style").innerHTML}
+</style>
+</head>
+<body>
+${clone.outerHTML}
+</body>
+</html>`;
+
+  const blob =
+    new Blob([html],{type:"text/html"});
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+  a.download = "meu-site.html";
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+}
+
+
+update();
+
+</script>
+
+</body>
+</html>

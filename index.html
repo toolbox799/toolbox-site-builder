@@ -1,257 +1,583 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ToolBox Site Builder</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<title>Site Builder</title>
 
-    body {
-      background: #f4f6f8;
-      color: #111827;
-    }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-    header {
-      background: #111827;
-      color: white;
-      padding: 22px;
-      text-align: center;
-    }
+:root {
+  --bg: #080a0f;
+  --panel: #10131a;
+  --panel2: #151922;
+  --border: #262c38;
+  --text: #f5f7fb;
+  --muted: #929aaa;
+  --accent: #7c5cff;
+  --accent2: #5b8cff;
+  --preview-bg: #eef1f6;
+}
 
-    header h1 {
-      font-size: 28px;
-    }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    header p {
-      margin-top: 8px;
-      color: #d1d5db;
-    }
+body {
+  font-family: "Inter", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
 
-    .container {
-      max-width: 1100px;
-      margin: 30px auto;
-      padding: 20px;
-      display: grid;
-      grid-template-columns: 350px 1fr;
-      gap: 25px;
-    }
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
 
-    .panel,
-    .preview {
-      background: white;
-      border-radius: 16px;
-      padding: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    }
+button {
+  cursor: pointer;
+}
 
-    .panel h2 {
-      margin-bottom: 20px;
-    }
+/* TOP BAR */
 
-    label {
-      display: block;
-      margin-top: 15px;
-      margin-bottom: 6px;
-      font-weight: bold;
-    }
+.topbar {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,10,15,.94);
+  backdrop-filter: blur(18px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
 
-    input,
-    textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      font-size: 15px;
-    }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-    textarea {
-      resize: vertical;
-      min-height: 90px;
-    }
+.brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 18px;
+  box-shadow: 0 0 25px rgba(124,92,255,.35);
+}
 
-    input[type="color"] {
-      height: 45px;
-      padding: 4px;
-    }
+.brand-name {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -.7px;
+}
 
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 13px;
-      border: none;
-      border-radius: 8px;
-      background: #2563eb;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.brand-name span {
+  color: #a995ff;
+}
 
-    button:hover {
-      opacity: 0.9;
-    }
+.top-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
 
-    .preview h2 {
-      margin-bottom: 15px;
-    }
+.top-button {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 9px;
+  padding: 10px 15px;
+  font-weight: 600;
+  transition: .2s;
+}
 
-    #sitePreview {
-      min-height: 450px;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #ffffff;
-    }
+.top-button:hover {
+  border-color: #50596c;
+  transform: translateY(-1px);
+}
 
-    .site-header {
-      padding: 30px;
-      color: white;
-      text-align: center;
-    }
+.top-button.primary {
+  border: 0;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+}
 
-    .site-content {
-      padding: 45px 25px;
-      text-align: center;
-    }
+/* MAIN */
 
-    .site-content h1 {
-      font-size: 36px;
-      margin-bottom: 15px;
-    }
+.workspace {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  min-height: calc(100vh - 70px);
+}
 
-    .site-content p {
-      font-size: 18px;
-      color: #4b5563;
-      margin-bottom: 25px;
-    }
+/* EDITOR */
 
-    .site-button {
-      display: inline-block;
-      padding: 12px 25px;
-      border-radius: 8px;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
+.editor {
+  background: #0d1016;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  height: calc(100vh - 70px);
+}
 
-    @media (max-width: 800px) {
-      .container {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+.editor-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-header h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.editor-header p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.section {
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 800;
+  color: #b7bfce;
+  margin-bottom: 15px;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c6ccd7;
+  margin-bottom: 7px;
+}
+
+.field small {
+  display: block;
+  margin-top: 6px;
+  color: #6f7787;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: #090c11;
+  color: var(--text);
+  border-radius: 9px;
+  padding: 11px 12px;
+  outline: none;
+  transition: .2s;
+  font-size: 13px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124,92,255,.1);
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+input[type="color"] {
+  height: 43px;
+  padding: 4px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 12px;
+  background: #090c11;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  margin-bottom: 9px;
+}
+
+.toggle-row span {
+  font-size: 12px;
+  color: #d7dce5;
+}
+
+.switch {
+  position: relative;
+  width: 39px;
+  height: 21px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #303744;
+  border-radius: 30px;
+  transition: .2s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  left: 3px;
+  top: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: .2s;
+}
+
+.switch input:checked + .slider {
+  background: var(--accent);
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+/* PREVIEW AREA */
+
+.preview-area {
+  background:
+    radial-gradient(circle at 50% 10%, rgba(124,92,255,.09), transparent 35%),
+    #090b10;
+  padding: 25px;
+  overflow: auto;
+}
+
+.preview-toolbar {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.view-button {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: #9da6b6;
+  padding: 9px 15px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.view-button.active {
+  color: white;
+  border-color: var(--accent);
+  background: rgba(124,92,255,.13);
+}
+
+.preview-shell {
+  width: 100%;
+  min-height: calc(100vh - 155px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.site-frame {
+  width: min(1100px, 100%);
+  background: white;
+  color: #111;
+  border-radius: 13px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,.35);
+  transition: width .35s ease;
+}
+
+.site-frame.mobile {
+  width: 390px;
+}
+
+/* GENERATED SITE */
+
+.generated-nav {
+  height: 70px;
+  padding: 0 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--site-color);
+  color: white;
+}
+
+.generated-logo {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.nav-links {
+  display: flex;
+  gap: 22px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.hero {
+  min-height: 480px;
+  padding: 80px 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255,255,255,.13), transparent 30%),
+    var(--hero-bg);
+  color: white;
+}
+
+.hero-content {
+  max-width: 760px;
+}
+
+.hero h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(38px, 6vw, 68px);
+  line-height: 1.02;
+  letter-spacing: -2px;
+  margin-bottom: 22px;
+}
+
+.hero p {
+  font-size: 18px;
+  line-height: 1.65;
+  opacity: .85;
+  margin-bottom: 30px;
+}
+
+.hero-button {
+  display: inline-block;
+  padding: 14px 24px;
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  background: var(--site-color);
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+}
+
+.about {
+  padding: 80px 45px;
+  text-align: center;
+}
+
+.about h2,
+.services h2,
+.contact h2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 34px;
+  margin-bottom: 15px;
+}
+
+.about p {
+  max-width: 700px;
+  margin: auto;
+  color: #5e6571;
+  line-height: 1.7;
+}
+
+.services {
+  padding: 75px 45px;
+  background: #f5f6f8;
+  text-align: center;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  max-width: 900px;
+  margin: 35px auto 0;
+}
+
+.card {
+  background: white;
+  padding: 27px 20px;
+  border-radius: 15px;
+  border: 1px solid #e3e6eb;
+  text-align: left;
+}
+
+.card-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--soft-color);
+  color: var(--site-color);
+  font-size: 19px;
+  margin-bottom: 16px;
+}
+
+.card h3 {
+  margin-bottom: 8px;
+}
+
+.card p {
+  color: #69717d;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.contact {
+  padding: 75px 45px;
+  text-align: center;
+}
+
+.contact-info {
+  margin-top: 25px;
+  color: #5e6571;
+  line-height: 2;
+}
+
+.generated-footer {
+  padding: 25px;
+  background: #101217;
+  color: #aeb5c0;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* EMPTY */
+
+.empty-message {
+  padding: 50px;
+  text-align: center;
+  color: #9da4b1;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 850px) {
+
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .editor {
+    height: auto;
+    max-height: none;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .preview-area {
+    min-height: 700px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .generated-nav {
+    padding: 0 20px;
+  }
+
+  .hero,
+  .about,
+  .services,
+  .contact {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .top-actions .top-button:first-child {
+    display: none;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>ToolBox Site Builder</h1>
-    <p>Crie seu próprio site gratuitamente.</p>
-  </header>
+<!-- TOP BAR -->
 
-  <div class="container">
+<header class="topbar">
 
-    <div class="panel">
-      <h2>Personalize seu site</h2>
-
-      <label for="siteName">Nome do site</label>
-      <input id="siteName" type="text" placeholder="Ex: Minha Empresa">
-
-      <label for="description">Descrição</label>
-      <textarea id="description" placeholder="Digite uma descrição para seu site"></textarea>
-
-      <label for="buttonText">Texto do botão</label>
-      <input id="buttonText" type="text" placeholder="Ex: Fale conosco">
-
-      <label for="buttonLink">Link do botão</label>
-      <input id="buttonLink" type="text" placeholder="https://...">
-
-      <label for="color">Cor principal</label>
-      <input id="color" type="color" value="#2563eb">
-
-      <button onclick="updateSite()">Atualizar site</button>
-    </div>
-
-    <div class="preview">
-      <h2>Pré-visualização</h2>
-
-      <div id="sitePreview">
-
-        <div class="site-header" id="previewHeader">
-          <h2 id="previewName">Seu site</h2>
-        </div>
-
-        <div class="site-content">
-          <h1 id="previewTitle">Bem-vindo!</h1>
-
-          <p id="previewDescription">
-            Sua descrição aparecerá aqui.
-          </p>
-
-          <a
-            id="previewButton"
-            class="site-button"
-            href="#"
-            target="_blank">
-            Saiba mais
-          </a>
-        </div>
-
-      </div>
-    </div>
-
+  <div class="brand">
+    <div class="brand-icon">S</div>
+    <div class="brand-name">Site<span>Builder</span></div>
   </div>
 
-  <script>
-    function updateSite() {
+  <div class="top-actions">
+    <button class="top-button" onclick="resetSite()">
+      ↻ Reiniciar
+    </button>
 
-      const name =
-        document.getElementById("siteName").value ||
-        "Seu site";
+    <button class="top-button primary" onclick="downloadSite()">
+      ↓ Baixar site
+    </button>
+  </div>
 
-      const description =
-        document.getElementById("description").value ||
-        "Sua descrição aparecerá aqui.";
+</header>
 
-      const buttonText =
-        document.getElementById("buttonText").value ||
-        "Saiba mais";
 
-      const buttonLink =
-        document.getElementById("buttonLink").value ||
-        "#";
+<div class="workspace">
 
-      const color =
-        document.getElementById("color").value;
+<!-- EDITOR -->
 
-      document.getElementById("previewName").textContent = name;
+<aside class="editor">
 
-      document.getElementById("previewTitle").textContent =
-        "Bem-vindo ao " + name;
+  <div class="editor-header">
+    <h1>Crie seu site</h1>
+    <p>
+      Personalize sua página e veja o resultado
+      aparecer instantaneamente na pré-visualização.
+    </p>
+  </div>
 
-      document.getElementById("previewDescription").textContent =
-        description;
 
-      document.getElementById("previewButton").textContent =
-        buttonText;
-
-      document.getElementById("previewButton").href =
-        buttonLink;
-
-      document.getElementById("previewHeader").style.background =
-        color;
-
-      document.getElementById("previewButton").style.background =
-        color;
-    }
-  </script>
-
-</body>
-</html>
+  <!--

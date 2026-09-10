@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>SiteBuilder</title>
 
 <style>
@@ -16,14 +16,23 @@ html,body{
   color:#fff;
 }
 
-body{overflow-x:hidden}
+body{
+  overflow-x:hidden;
+  user-select:none;
+}
 
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
+input,textarea,select{
+  user-select:text;
+}
+
+button{
+  font:inherit;
+  cursor:pointer;
+}
 
 :root{
   --accent:#7c5cff;
-  --accent2:#5b8cff;
+  --accent2:#4d9cff;
   --bg:#07090d;
   --panel:#10141c;
   --border:#252b36;
@@ -31,7 +40,7 @@ button{cursor:pointer}
 
 
 /* =========================
-   TELA DE BOAS-VINDAS
+   FUNDO ANIMADO
 ========================= */
 
 #welcome{
@@ -39,11 +48,45 @@ button{cursor:pointer}
   inset:0;
   z-index:1000;
   overflow:auto;
+
   background:
-    radial-gradient(circle at 20% 20%,#7c5cff22,transparent 30%),
-    radial-gradient(circle at 80% 70%,#3d8cff1b,transparent 32%),
-    #07090d;
-  transition:opacity .5s ease,transform .5s ease;
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(124,92,255,.30),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 75%,
+      rgba(55,145,255,.25),
+      transparent 32%
+    ),
+    linear-gradient(
+      125deg,
+      #07090d,
+      #101a2b,
+      #11152a,
+      #08131e,
+      #07090d
+    );
+
+  background-size:
+    auto,
+    auto,
+    400% 400%;
+
+  animation:bgMove 16s ease infinite;
+
+  transition:
+    opacity .5s ease,
+    transform .5s ease;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  25%{background-position:60% 20%}
+  50%{background-position:100% 70%}
+  75%{background-position:30% 100%}
+  100%{background-position:0% 50%}
 }
 
 #welcome.hide{
@@ -55,172 +98,321 @@ button{cursor:pointer}
 .background-grid{
   position:absolute;
   inset:0;
-  opacity:.22;
+  opacity:.20;
+
   background-image:
-    linear-gradient(#ffffff08 1px,transparent 1px),
-    linear-gradient(90deg,#ffffff08 1px,transparent 1px);
+    linear-gradient(#ffffff09 1px,transparent 1px),
+    linear-gradient(90deg,#ffffff09 1px,transparent 1px);
+
   background-size:45px 45px;
-  mask-image:linear-gradient(to bottom,#000,transparent);
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      #000,
+      transparent
+    );
 }
 
 .orb{
   position:absolute;
-  width:280px;
-  height:280px;
+  width:300px;
+  height:300px;
   border-radius:50%;
-  filter:blur(80px);
+  filter:blur(90px);
   opacity:.25;
-  animation:float 7s ease-in-out infinite;
+  animation:float 8s ease-in-out infinite;
 }
 
 .orb.one{
   background:#7c5cff;
-  left:8%;
-  top:15%;
+  left:5%;
+  top:12%;
 }
 
 .orb.two{
-  background:#328cff;
-  right:8%;
-  bottom:10%;
+  background:#258dff;
+  right:5%;
+  bottom:8%;
   animation-delay:2s;
 }
 
 @keyframes float{
-  0%,100%{transform:translateY(0) translateX(0)}
-  50%{transform:translateY(-30px) translateX(15px)}
+  0%,100%{
+    transform:translate(0,0) scale(1);
+  }
+
+  50%{
+    transform:translate(20px,-35px) scale(1.08);
+  }
 }
+
+
+/* =========================
+   WELCOME
+========================= */
 
 .welcome-content{
   position:relative;
   z-index:2;
+
   min-height:100vh;
+
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
+
   padding:70px 25px 45px;
+
   text-align:center;
 }
 
 .welcome-logo{
   width:64px;
   height:64px;
+
   display:grid;
   place-items:center;
+
   border-radius:19px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  box-shadow:0 0 55px #7c5cff55;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent),
+      var(--accent2)
+    );
+
+  box-shadow:
+    0 0 55px rgba(124,92,255,.45);
+
   font-size:31px;
   font-weight:900;
+
   margin-bottom:25px;
-  animation:logoIn .8s ease both;
+
+  animation:
+    logoIn .8s ease both,
+    logoFloat 4s ease-in-out 1s infinite;
 }
 
 @keyframes logoIn{
-  from{opacity:0;transform:scale(.6) rotate(-12deg)}
-  to{opacity:1;transform:scale(1) rotate(0)}
+  from{
+    opacity:0;
+    transform:scale(.6) rotate(-12deg);
+  }
+
+  to{
+    opacity:1;
+    transform:scale(1) rotate(0);
+  }
+}
+
+@keyframes logoFloat{
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-7px);
+  }
 }
 
 .welcome-content h1{
   margin:0;
+
   max-width:900px;
-  font-size:clamp(44px,8vw,82px);
+
+  font-size:
+    clamp(
+      44px,
+      8vw,
+      82px
+    );
+
   line-height:.98;
+
   letter-spacing:-4px;
-  animation:rise .8s .1s ease both;
+
+  animation:
+    rise .8s .1s ease both;
 }
 
 .gradient-text{
-  background:linear-gradient(90deg,#fff,#a994ff,#78a8ff,#fff);
+  background:
+    linear-gradient(
+      90deg,
+      #fff,
+      #a994ff,
+      #78b1ff,
+      #fff
+    );
+
   background-size:250%;
+
   -webkit-background-clip:text;
   background-clip:text;
+
   color:transparent;
-  animation:shine 5s linear infinite;
+
+  animation:
+    shine 5s linear infinite;
 }
 
 @keyframes shine{
-  to{background-position:250%}
+  to{
+    background-position:250%;
+  }
 }
 
 .welcome-sub{
   max-width:680px;
+
   margin:25px auto 0;
+
   color:#aeb6c6;
+
   font-size:17px;
   line-height:1.7;
-  animation:rise .8s .2s ease both;
+
+  animation:
+    rise .8s .2s ease both;
 }
 
 @keyframes rise{
-  from{opacity:0;transform:translateY(25px)}
-  to{opacity:1;transform:translateY(0)}
+  from{
+    opacity:0;
+    transform:translateY(25px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
 .welcome-actions{
   display:flex;
   gap:12px;
+
   margin-top:30px;
-  animation:rise .8s .3s ease both;
+
+  animation:
+    rise .8s .3s ease both;
 }
 
 .welcome-btn{
   border:1px solid #343b49;
+
   background:#11151d;
+
   color:#fff;
+
   padding:13px 20px;
+
   border-radius:11px;
+
   font-weight:800;
+
+  transition:
+    transform .25s,
+    box-shadow .25s,
+    border-color .25s;
 }
 
 .welcome-btn.primary{
   border:0;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  box-shadow:0 12px 35px #7c5cff33;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent),
+      var(--accent2)
+    );
+
+  box-shadow:
+    0 12px 35px
+    rgba(124,92,255,.28);
 }
 
 .welcome-btn:hover{
-  transform:translateY(-2px);
+  transform:translateY(-3px);
+
+  border-color:#70798b;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.25);
 }
+
+
+/* =========================
+   EXEMPLOS
+========================= */
 
 .examples{
   width:min(1050px,100%);
+
   margin-top:48px;
-  animation:rise .8s .4s ease both;
+
+  animation:
+    rise .8s .4s ease both;
 }
 
 .examples-label{
   color:#777f90;
+
   font-size:11px;
+
   text-transform:uppercase;
+
   letter-spacing:2px;
+
   margin-bottom:14px;
 }
 
 .example-window{
   height:210px;
+
   border:1px solid #2b3240;
+
   border-radius:17px;
+
   overflow:hidden;
-  background:#0e1219;
-  box-shadow:0 25px 70px #0008;
+
+  background:
+    rgba(14,18,25,.72);
+
+  backdrop-filter:
+    blur(16px);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.55);
+
   position:relative;
 }
 
 .window-top{
   height:35px;
-  border-bottom:1px solid #252b36;
+
+  border-bottom:
+    1px solid #252b36;
+
   display:flex;
+
   align-items:center;
+
   padding:0 13px;
+
   gap:6px;
 }
 
 .dot{
   width:7px;
   height:7px;
+
   border-radius:50%;
+
   background:#444b58;
 }
 
@@ -231,13 +423,20 @@ button{cursor:pointer}
 
 .example{
   position:absolute;
+
   inset:0;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   padding:25px;
+
   opacity:0;
+
   transform:translateX(30px);
+
   transition:.6s ease;
 }
 
@@ -249,60 +448,117 @@ button{cursor:pointer}
 .example-card{
   width:100%;
   max-width:760px;
+
   height:125px;
+
   border-radius:12px;
+
   padding:25px;
+
   text-align:left;
+
   position:relative;
+
   overflow:hidden;
+
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.12);
+}
+
+.example-card::after{
+  content:"";
+
+  position:absolute;
+
+  width:180px;
+  height:180px;
+
+  border-radius:50%;
+
+  right:-70px;
+  top:-100px;
+
+  background:
+    rgba(255,255,255,.10);
+
+  filter:blur(4px);
 }
 
 .example-card h3{
   margin:0 0 7px;
+
   font-size:24px;
 }
 
 .example-card p{
   margin:0;
+
   color:#c1c7d1;
+
   font-size:12px;
 }
 
 .ex1{
-  background:linear-gradient(135deg,#18122f,#5133b7);
+  background:
+    linear-gradient(
+      135deg,
+      #18122f,
+      #5133b7
+    );
 }
 
 .ex2{
-  background:linear-gradient(135deg,#101820,#087f8f);
+  background:
+    linear-gradient(
+      135deg,
+      #101820,
+      #087f8f
+    );
 }
 
 .ex3{
-  background:linear-gradient(135deg,#25120d,#c9571d);
+  background:
+    linear-gradient(
+      135deg,
+      #25120d,
+      #c9571d
+    );
 }
 
 .example-dots{
   display:flex;
+
   justify-content:center;
+
   gap:6px;
+
   margin-top:13px;
 }
 
 .example-dot{
   width:6px;
   height:6px;
+
   border-radius:50%;
+
   background:#444b58;
+
+  transition:.35s;
 }
 
 .example-dot.active{
   width:20px;
+
   border-radius:20px;
+
   background:var(--accent);
 }
 
 .scroll-hint{
   margin-top:23px;
+
   color:#697181;
+
   font-size:11px;
 }
 
@@ -317,34 +573,62 @@ button{cursor:pointer}
 
 #editor.visible{
   display:block;
-  animation:editorIn .5s ease;
+
+  animation:
+    editorIn .5s ease;
 }
 
 @keyframes editorIn{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:translateY(0)}
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
 .top{
   height:70px;
-  border-bottom:1px solid var(--border);
+
+  border-bottom:
+    1px solid var(--border);
+
   background:#090b10;
+
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
+
   padding:0 22px;
+
   position:sticky;
+
   top:0;
+
   z-index:50;
 }
 
 .logo{
   width:40px;
   height:40px;
+
   border-radius:12px;
+
   display:grid;
   place-items:center;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent),
+      var(--accent2)
+    );
+
   font-weight:900;
   font-size:20px;
 }
@@ -370,62 +654,99 @@ button{cursor:pointer}
 
 .btn{
   background:#131720;
+
   color:#fff;
-  border:1px solid var(--border);
+
+  border:
+    1px solid var(--border);
+
   border-radius:9px;
+
   padding:10px 14px;
+
   font-weight:700;
+
+  transition:.2s;
 }
 
 .btn:hover{
   border-color:#667084;
+
+  transform:translateY(-1px);
 }
 
 .btn.main{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent),
+      var(--accent2)
+    );
+
   border:0;
 }
 
 .app{
   display:grid;
-  grid-template-columns:330px 1fr;
-  min-height:calc(100vh - 70px);
+
+  grid-template-columns:
+    330px 1fr;
+
+  min-height:
+    calc(100vh - 70px);
 }
 
 .panel{
   background:#0d1016;
-  border-right:1px solid var(--border);
+
+  border-right:
+    1px solid var(--border);
+
   overflow:auto;
-  max-height:calc(100vh - 70px);
+
+  max-height:
+    calc(100vh - 70px);
 }
 
 .panel-title{
   padding:23px;
-  border-bottom:1px solid var(--border);
+
+  border-bottom:
+    1px solid var(--border);
 }
 
 .panel-title h1{
   margin:0 0 7px;
+
   font-size:24px;
 }
 
 .panel-title p{
   margin:0;
+
   color:#8992a1;
+
   font-size:13px;
+
   line-height:1.5;
 }
 
 .section{
   padding:19px;
-  border-bottom:1px solid var(--border);
+
+  border-bottom:
+    1px solid var(--border);
 }
 
 .section h2{
   font-size:11px;
+
   letter-spacing:1px;
+
   text-transform:uppercase;
+
   color:#aeb7c6;
+
   margin:0 0 14px;
 }
 
@@ -439,19 +760,32 @@ button{cursor:pointer}
 
 label{
   display:block;
+
   font-size:12px;
+
   font-weight:700;
+
   color:#c9d0dc;
+
   margin-bottom:6px;
 }
 
-input,textarea,select{
+input,
+textarea,
+select{
   width:100%;
-  border:1px solid var(--border);
+
+  border:
+    1px solid var(--border);
+
   background:#080b10;
+
   color:#fff;
+
   border-radius:8px;
+
   padding:10px;
+
   outline:none;
 }
 
@@ -460,14 +794,22 @@ textarea{
   resize:vertical;
 }
 
-input:focus,textarea:focus,select:focus{
+input:focus,
+textarea:focus,
+select:focus{
   border-color:var(--accent);
-  box-shadow:0 0 0 3px #7c5cff18;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(124,92,255,.09);
 }
 
 .color-row{
   display:grid;
-  grid-template-columns:1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap:9px;
 }
 
@@ -478,53 +820,88 @@ input[type=color]{
 
 .workspace{
   min-width:0;
+
   background:
-    radial-gradient(circle at 50% 0,#7c5cff13,transparent 35%),
+    radial-gradient(
+      circle at 50% 0,
+      rgba(124,92,255,.08),
+      transparent 35%
+    ),
     #080a0f;
 }
 
 .workspace-bar{
   height:55px;
+
   display:flex;
+
   justify-content:center;
   align-items:center;
+
   gap:8px;
-  border-bottom:1px solid var(--border);
+
+  border-bottom:
+    1px solid var(--border);
 }
 
 .mode{
-  border:1px solid var(--border);
+  border:
+    1px solid var(--border);
+
   background:#10141c;
+
   color:#aeb6c5;
+
   padding:8px 13px;
+
   border-radius:8px;
+
   font-size:12px;
+
   font-weight:700;
+
   transition:.25s;
 }
 
 .mode.active{
   color:#fff;
+
   border-color:var(--accent);
-  background:#7c5cff18;
-  transform:translateY(-1px);
+
+  background:
+    rgba(124,92,255,.10);
+
+  transform:
+    translateY(-1px);
 }
 
 .canvas{
   padding:25px;
+
   overflow:auto;
-  min-height:calc(100vh - 125px);
+
+  min-height:
+    calc(100vh - 125px);
 }
 
 .site{
   width:100%;
+
   max-width:1200px;
+
   margin:auto;
+
   min-height:900px;
+
   background:#fff;
+
   color:#111;
+
   overflow:hidden;
-  box-shadow:0 25px 70px #0009;
+
+  box-shadow:
+    0 25px 70px #0009;
+
   transition:.45s ease;
 }
 
@@ -534,77 +911,119 @@ input[type=color]{
 
 .site-header{
   min-height:70px;
+
   padding:0 38px;
+
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
+
   color:#fff;
 }
 
 .site-name{
   font-size:21px;
+
   font-weight:900;
 }
 
 .site-menu{
   display:flex;
+
   gap:23px;
+
   font-size:13px;
+
   font-weight:700;
 }
 
 .hero{
   min-height:520px;
+
   display:flex;
+
   align-items:center;
+
   justify-content:center;
+
   text-align:center;
+
   padding:80px 30px;
+
   color:#fff;
+
   background:#151a2b;
+
   background-position:center;
+
   background-size:cover;
+
   position:relative;
 }
 
 .hero-overlay{
   position:absolute;
+
   inset:0;
-  background:linear-gradient(135deg,#0008,#0003);
+
+  background:
+    linear-gradient(
+      135deg,
+      #0008,
+      #0003
+    );
 }
 
 .hero-content{
   position:relative;
+
   max-width:800px;
+
   z-index:2;
 }
 
 .hero h1{
   margin:0 0 20px;
-  font-size:clamp(42px,6vw,72px);
+
+  font-size:
+    clamp(42px,6vw,72px);
+
   line-height:1;
+
   letter-spacing:-3px;
 }
 
 .hero p{
   margin:0 auto 30px;
+
   max-width:680px;
+
   font-size:18px;
+
   line-height:1.65;
+
   opacity:.9;
 }
 
 .hero a{
   display:inline-block;
+
   padding:14px 23px;
+
   border-radius:10px;
+
   color:#fff;
+
   text-decoration:none;
+
   font-weight:800;
 }
 
 .block{
   padding:80px 45px;
+
   text-align:center;
 }
 
@@ -614,39 +1033,71 @@ input[type=color]{
 
 .block h2{
   font-size:36px;
+
   margin:0 0 14px;
 }
 
 .block-intro{
   max-width:700px;
+
   margin:auto;
+
   color:#68717a;
+
   line-height:1.7;
 }
 
 .cards{
   max-width:980px;
+
   margin:38px auto 0;
+
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+
+  grid-template-columns:
+    repeat(3,1fr);
+
   gap:18px;
 }
 
 .card{
   background:#fff;
-  border:1px solid #e0e4e9;
+
+  border:
+    1px solid #e0e4e9;
+
   border-radius:16px;
+
   padding:27px;
+
   text-align:left;
+
+  transition:
+    transform .25s,
+    box-shadow .25s;
+}
+
+.card:hover{
+  transform:
+    translateY(-5px);
+
+  box-shadow:
+    0 15px 35px
+    rgba(0,0,0,.08);
 }
 
 .icon{
   width:46px;
   height:46px;
+
   border-radius:12px;
+
   display:grid;
+
   place-items:center;
+
   margin-bottom:17px;
+
   font-size:20px;
 }
 
@@ -656,13 +1107,17 @@ input[type=color]{
 
 .card p{
   margin:0;
+
   color:#69727d;
+
   line-height:1.6;
+
   font-size:13px;
 }
 
 .contact{
   background:#11151c;
+
   color:#fff;
 }
 
@@ -672,15 +1127,21 @@ input[type=color]{
 
 .contact-data{
   margin-top:25px;
+
   line-height:2;
+
   color:#c5cbd4;
 }
 
 .footer{
   padding:27px;
+
   text-align:center;
+
   background:#080a0e;
+
   color:#aeb5c0;
+
   font-size:12px;
 }
 
@@ -701,8 +1162,11 @@ input[type=color]{
 
   .panel{
     max-height:none;
+
     border-right:0;
-    border-bottom:1px solid var(--border);
+
+    border-bottom:
+      1px solid var(--border);
   }
 
   .cards{
@@ -742,7 +1206,9 @@ input[type=color]{
 
   .welcome-actions{
     flex-direction:column;
+
     width:100%;
+
     max-width:300px;
   }
 
@@ -762,7 +1228,7 @@ input[type=color]{
 
 
 <!-- =========================
-     BOAS-VINDAS
+     TELA INICIAL
 ========================= -->
 
 <section id="welcome">
@@ -772,14 +1238,21 @@ input[type=color]{
   <div class="orb one"></div>
   <div class="orb two"></div>
 
+
   <div class="welcome-content">
 
-    <div class="welcome-logo">S</div>
+    <div class="welcome-logo">
+      S
+    </div>
+
 
     <h1>
       Bem-vindo ao
-      <span class="gradient-text">SiteBuilder</span>
+      <span class="gradient-text">
+        SiteBuilder
+      </span>
     </h1>
+
 
     <p class="welcome-sub">
       Transforme suas ideias em páginas modernas.
@@ -787,13 +1260,21 @@ input[type=color]{
       e construa sua presença na internet.
     </p>
 
+
     <div class="welcome-actions">
 
-      <button class="welcome-btn primary" onclick="startBuilder()">
+      <button
+        class="welcome-btn primary"
+        onclick="startBuilder()"
+      >
         ✦ Começar a criar
       </button>
 
-      <button class="welcome-btn" onclick="showFeatures()">
+
+      <button
+        class="welcome-btn"
+        onclick="openFeatures()"
+      >
         Conhecer recursos
       </button>
 
@@ -806,48 +1287,92 @@ input[type=color]{
         Exemplos do que você pode criar
       </div>
 
+
       <div class="example-window">
 
         <div class="window-top">
+
           <div class="dot"></div>
           <div class="dot"></div>
           <div class="dot"></div>
+
         </div>
+
 
         <div class="example-slides">
 
+
           <div class="example active">
+
             <div class="example-card ex1">
-              <h3>Portfólio profissional</h3>
-              <p>Apresente seus projetos, experiências e trabalhos.</p>
+
+              <h3>
+                Portfólio profissional
+              </h3>
+
+              <p>
+                Apresente seus projetos,
+                experiências e trabalhos.
+              </p>
+
             </div>
+
           </div>
 
+
           <div class="example">
+
             <div class="example-card ex2">
-              <h3>Sua empresa online</h3>
-              <p>Mostre seus serviços e facilite o contato com seus clientes.</p>
+
+              <h3>
+                Sua empresa online
+              </h3>
+
+              <p>
+                Mostre seus serviços e facilite
+                o contato com seus clientes.
+              </p>
+
             </div>
+
           </div>
 
+
           <div class="example">
+
             <div class="example-card ex3">
-              <h3>Produto ou negócio</h3>
-              <p>Crie uma página para divulgar sua ideia, produto ou marca.</p>
+
+              <h3>
+                Produto ou negócio
+              </h3>
+
+              <p>
+                Crie uma página para divulgar
+                sua ideia, produto ou marca.
+              </p>
+
             </div>
+
           </div>
+
 
         </div>
 
       </div>
 
+
       <div class="example-dots">
+
         <div class="example-dot active"></div>
+
         <div class="example-dot"></div>
+
         <div class="example-dot"></div>
+
       </div>
 
     </div>
+
 
     <div class="scroll-hint">
       Crie. Personalize. Publique.
@@ -869,7 +1394,9 @@ input[type=color]{
 
   <div class="brand">
 
-    <div class="logo">S</div>
+    <div class="logo">
+      S
+    </div>
 
     <strong>
       Site<span>Builder</span>
@@ -880,19 +1407,34 @@ input[type=color]{
 
   <div class="top-buttons">
 
-    <button class="btn" onclick="backHome()">
+    <button
+      class="btn"
+      onclick="backHome()"
+    >
       ← Início
     </button>
 
-    <button class="btn" onclick="resetSite()">
+
+    <button
+      class="btn"
+      onclick="resetSite()"
+    >
       ↻ Reiniciar
     </button>
 
-    <button class="btn" onclick="openFullPreview()">
+
+    <button
+      class="btn"
+      onclick="openFullPreview()"
+    >
       ↗ Visualizar site
     </button>
 
-    <button class="btn main" onclick="downloadSite()">
+
+    <button
+      class="btn main"
+      onclick="downloadSite()"
+    >
       ↓ Baixar site
     </button>
 
@@ -908,7 +1450,9 @@ input[type=color]{
 
   <div class="panel-title">
 
-    <h1>Crie seu site</h1>
+    <h1>
+      Crie seu site
+    </h1>
 
     <p>
       Personalize sua página e veja o resultado
@@ -920,11 +1464,16 @@ input[type=color]{
 
   <div class="section">
 
-    <h2>Identidade</h2>
+    <h2>
+      Identidade
+    </h2>
+
 
     <div class="field">
 
-      <label>Nome do site</label>
+      <label>
+        Nome do site
+      </label>
 
       <input
         id="name"
@@ -937,7 +1486,9 @@ input[type=color]{
 
     <div class="field">
 
-      <label>Título principal</label>
+      <label>
+        Título principal
+      </label>
 
       <input
         id="title"
@@ -950,7 +1501,9 @@ input[type=color]{
 
     <div class="field">
 
-      <label>Descrição principal</label>
+      <label>
+        Descrição principal
+      </label>
 
       <textarea
         id="description"
@@ -964,13 +1517,18 @@ input[type=color]{
 
   <div class="section">
 
-    <h2>Aparência</h2>
+    <h2>
+      Aparência
+    </h2>
+
 
     <div class="color-row">
 
       <div class="field">
 
-        <label>Cor principal</label>
+        <label>
+          Cor principal
+        </label>
 
         <input
           id="accent"
@@ -984,7 +1542,9 @@ input[type=color]{
 
       <div class="field">
 
-        <label>Cor do herói</label>
+        <label>
+          Cor do herói
+        </label>
 
         <input
           id="heroColor"
@@ -1000,9 +1560,14 @@ input[type=color]{
 
     <div class="field">
 
-      <label>Fonte</label>
+      <label>
+        Fonte
+      </label>
 
-      <select id="font" onchange="render()">
+      <select
+        id="font"
+        onchange="render()"
+      >
 
         <option value="Inter">
           Moderna
@@ -1023,7 +1588,9 @@ input[type=color]{
 
     <div class="field">
 
-      <label>Imagem de capa</label>
+      <label>
+        Imagem de capa
+      </label>
 
       <input
         id="image"
@@ -1038,11 +1605,16 @@ input[type=color]{
 
   <div class="section">
 
-    <h2>Botão principal</h2>
+    <h2>
+      Botão principal
+    </h2>
+
 
     <div class="field">
 
-      <label>Texto do botão</label>
+      <label>
+        Texto do botão
+      </label>
 
       <input
         id="buttonText"
@@ -1055,7 +1627,9 @@ input[type=color]{
 
     <div class="field">
 
-      <label>Link do botão</label>
+      <label>
+        Link do botão
+      </label>
 
       <input
         id="buttonLink"
@@ -1070,11 +1644,16 @@ input[type=color]{
 
   <div class="section">
 
-    <h2>Seção Sobre</h2>
+    <h2>
+      Seção Sobre
+    </h2>
+
 
     <div class="field">
 
-      <label>Título</label>
+      <label>
+        Título
+      </label>
 
       <input
         id="aboutTitle"
@@ -1087,7 +1666,9 @@ input[type=color]{
 
     <div class="field">
 
-      <label>Texto</label>
+      <label>
+        Texto
+      </label>
 
       <textarea
         id="aboutText"
@@ -1101,11 +1682,16 @@ input[type=color]{
 
   <div class="section">
 
-    <h2>Serviços</h2>
+    <h2>
+      Serviços
+    </h2>
+
 
     <div class="field">
 
-      <label>Serviço 1</label>
+      <label>
+        Serviço 1
+      </label>
 
       <input
         id="s1"
@@ -1118,7 +1704,9 @@ input[type=color]{
 
     <div class="field">
 
-      <label>Descrição 1</label>
+      <label>
+        Descrição 1
+      </label>
 
       <input
         id="s1d"
@@ -1131,7 +1719,9 @@ input[type=color]{
 
     <div class="field">
 
-      <label>Serviço 2</label>
+      <label>
+        Serviço 2
+      </label>
 
       <input
         id="s2"
@@ -1144,7 +1734,9 @@ input[type=color]{
 
     <div class="field">
 
-      <label>Descrição 2</label>
+      <label>
+        Descrição 2
+      </label>
 
       <input
         id="s2d"
@@ -1157,7 +1749,9 @@ input[type=color]{
 
     <div class="field">
 
-      <label>Serviço 3</label>
+      <label>
+        Serviço 3
+      </label>
 
       <input
         id="s3"
@@ -1170,7 +1764,9 @@ input[type=color]{
 
     <div class="field">
 
-      <label>Descrição 3</label>
+      <label>
+        Descrição 3
+      </label>
 
       <input
         id="s3d"
@@ -1185,11 +1781,16 @@ input[type=color]{
 
   <div class="section">
 
-    <h2>Contato</h2>
+    <h2>
+      Contato
+    </h2>
+
 
     <div class="field">
 
-      <label>Telefone / WhatsApp</label>
+      <label>
+        Telefone / WhatsApp
+      </label>
 
       <input
         id="phone"
@@ -1202,7 +1803,9 @@ input[type=color]{
 
     <div class="field">
 
-      <label>E-mail</label>
+      <label>
+        E-mail
+      </label>
 
       <input
         id="email"
@@ -1215,7 +1818,9 @@ input[type=color]{
 
     <div class="field">
 
-      <label>Localização</label>
+      <label>
+        Localização
+      </label>
 
       <input
         id="location"
@@ -1230,7 +1835,10 @@ input[type=color]{
 
   <div class="section">
 
-    <h2>Exibição</h2>
+    <h2>
+      Exibição
+    </h2>
+
 
     <div class="field">
 
@@ -1302,7 +1910,10 @@ input[type=color]{
 
   <div class="canvas">
 
-    <div id="site" class="site">
+    <div
+      id="site"
+      class="site"
+    >
 
 
       <header
@@ -1328,7 +1939,6 @@ input[type=color]{
         </nav>
 
       </header>
-
 
 
       <section
@@ -1365,7 +1975,6 @@ input[type=color]{
       </section>
 
 
-
       <section
         id="about"
         class="block"
@@ -1385,7 +1994,6 @@ input[type=color]{
         </p>
 
       </section>
-
 
 
       <section
@@ -1472,7 +2080,6 @@ input[type=color]{
       </section>
 
 
-
       <section
         id="contact"
         class="block contact"
@@ -1507,7 +2114,6 @@ input[type=color]{
       </section>
 
 
-
       <footer class="footer">
 
         Criado com
@@ -1531,15 +2137,15 @@ input[type=color]{
 <script>
 
 /* =========================
-   BOAS-VINDAS
+   SLIDES
 ========================= */
 
-let currentSlide = 0;
+let currentSlide=0;
 
-const examples =
+const examples=
   document.querySelectorAll(".example");
 
-const dots =
+const dots=
   document.querySelectorAll(".example-dot");
 
 
@@ -1551,8 +2157,10 @@ function changeSlide(){
   dots[currentSlide]
     .classList.remove("active");
 
-  currentSlide =
-    (currentSlide + 1) % examples.length;
+  currentSlide=
+    (currentSlide+1)
+    %
+    examples.length;
 
   examples[currentSlide]
     .classList.add("active");
@@ -1563,15 +2171,22 @@ function changeSlide(){
 }
 
 
-setInterval(changeSlide,3500);
+setInterval(
+  changeSlide,
+  3500
+);
 
+
+/* =========================
+   COMEÇAR
+========================= */
 
 function startBuilder(){
 
-  const welcome =
+  const welcome=
     document.getElementById("welcome");
 
-  const editor =
+  const editor=
     document.getElementById("editor");
 
   welcome.classList.add("hide");
@@ -1582,269 +2197,26 @@ function startBuilder(){
 
     editor.classList.add("visible");
 
-    window.scrollTo({
-      top:0,
-      behavior:"instant"
-    });
+    window.scrollTo(
+      0,
+      0
+    );
 
   },500);
 
 }
 
 
-function showFeatures(){
-
-  alert(
-    "No SiteBuilder você pode personalizar " +
-    "textos, cores, fontes, imagem de capa, " +
-    "botões, serviços, contato e visualizar " +
-    "o resultado em computador ou celular."
-  );
-
-}
-
-
 /* =========================
-   EDITOR
+   RECURSOS
 ========================= */
 
-const $ = id =>
-  document.getElementById(id);
+function openFeatures(){
 
+  const featuresHTML=`
 
-function render(){
-
-  const accent =
-    $("accent").value;
-
-  const heroColor =
-    $("heroColor").value;
-
-  const image =
-    $("image").value.trim();
-
-
-  document.documentElement
-    .style.setProperty(
-      "--accent",
-      accent
-    );
-
-
-  $("outName").textContent =
-    $("name").value ||
-    "Minha Empresa";
-
-
-  $("outTitle").textContent =
-    $("title").value ||
-    "Seu próximo projeto começa aqui.";
-
-
-  $("outDescription").textContent =
-    $("description").value ||
-    "";
-
-
-  $("outButton").textContent =
-    $("buttonText").value ||
-    "Saiba mais";
-
-
-  $("outButton").href =
-    $("buttonLink").value ||
-    "#";
-
-
-  $("outAboutTitle").textContent =
-    $("aboutTitle").value ||
-    "Sobre nós";
-
-
-  $("outAboutText").textContent =
-    $("aboutText").value ||
-    "";
-
-
-  $("outS1").textContent =
-    $("s1").value ||
-    "Serviço";
-
-
-  $("outS1d").textContent =
-    $("s1d").value ||
-    "";
-
-
-  $("outS2").textContent =
-    $("s2").value ||
-    "Serviço";
-
-
-  $("outS2d").textContent =
-    $("s2d").value ||
-    "";
-
-
-  $("outS3").textContent =
-    $("s3").value ||
-    "Serviço";
-
-
-  $("outS3d").textContent =
-    $("s3d").value ||
-    "";
-
-
-  $("outPhone").textContent =
-    "📱 " +
-    ($("phone").value || "");
-
-
-  $("outEmail").textContent =
-    "✉ " +
-    ($("email").value || "");
-
-
-  $("outLocation").textContent =
-    "📍 " +
-    ($("location").value || "");
-
-
-  $("siteHeader").style.background =
-    accent;
-
-
-  $("outButton").style.background =
-    accent;
-
-
-  $("hero").style.backgroundColor =
-    heroColor;
-
-
-  if(image){
-
-    $("hero").style.backgroundImage =
-      `url("${image}")`;
-
-  }else{
-
-    $("hero").style.backgroundImage =
-      "none";
-
-  }
-
-
-  document
-    .querySelectorAll(".icon")
-    .forEach(icon=>{
-
-      icon.style.background =
-        accent + "22";
-
-      icon.style.color =
-        accent;
-
-    });
-
-
-  $("site").style.fontFamily =
-    $("font").value +
-    ", sans-serif";
-
-}
-
-
-function setView(type){
-
-  if(type === "mobile"){
-
-    $("site")
-      .classList.add("mobile");
-
-    $("mobileBtn")
-      .classList.add("active");
-
-    $("desktopBtn")
-      .classList.remove("active");
-
-  }else{
-
-    $("site")
-      .classList.remove("mobile");
-
-    $("desktopBtn")
-      .classList.add("active");
-
-    $("mobileBtn")
-      .classList.remove("active");
-
-  }
-
-}
-
-
-function toggleSection(id){
-
-  $(id)
-    .classList.toggle("hidden");
-
-}
-
-
-function backHome(){
-
-  document
-    .getElementById("editor")
-    .classList.remove("visible");
-
-  document
-    .getElementById("welcome")
-    .style.display="block";
-
-  setTimeout(()=>{
-
-    document
-      .getElementById("welcome")
-      .classList.remove("hide");
-
-  },20);
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-function resetSite(){
-
-  if(
-    confirm(
-      "Deseja reiniciar o projeto?"
-    )
-  ){
-
-    location.reload();
-
-  }
-
-}
-
-
-function openFullPreview(){
-
-  const siteHTML =
-    $("site").outerHTML;
-
-  const styles =
-    document.querySelector("style").innerHTML;
-
-
-  const page = `
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
@@ -1857,50 +2229,452 @@ content="width=device-width,initial-scale=1.0"
 >
 
 <title>
-${escapeHTML(
-  $("name").value ||
-  "Meu Site"
-)}
+Recursos — SiteBuilder
 </title>
+
 
 <style>
 
-${styles}
-
-body{
-margin:0;
-background:#fff;
+*{
+box-sizing:border-box;
 }
 
-.site{
-max-width:none!important;
-width:100%!important;
-margin:0!important;
-border-radius:0!important;
-box-shadow:none!important;
+html,body{
+margin:0;
+min-height:100%;
+font-family:Inter,Arial,sans-serif;
+color:#fff;
+background:#07090d;
+}
+
+body{
+overflow-x:hidden;
+}
+
+.background{
+position:fixed;
+inset:0;
+
+background:
+radial-gradient(
+circle at 15% 20%,
+rgba(124,92,255,.30),
+transparent 30%
+),
+radial-gradient(
+circle at 85% 75%,
+rgba(55,145,255,.25),
+transparent 30%
+),
+linear-gradient(
+125deg,
+#07090d,
+#101a2b,
+#11152a,
+#08131e,
+#07090d
+);
+
+background-size:
+auto,
+auto,
+400% 400%;
+
+animation:
+move 16s ease infinite;
+
+z-index:-2;
+}
+
+@keyframes move{
+
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+
+}
+
+.grid{
+position:fixed;
+inset:0;
+
+background-image:
+linear-gradient(#fff1 1px,transparent 1px),
+linear-gradient(90deg,#fff1 1px,transparent 1px);
+
+background-size:45px 45px;
+
+opacity:.12;
+
+z-index:-1;
+}
+
+.container{
+width:min(1100px,92%);
+
+margin:auto;
+
+padding:
+70px 0;
+}
+
+.logo{
+width:60px;
+height:60px;
+
+display:grid;
+place-items:center;
+
+border-radius:18px;
+
+background:
+linear-gradient(
+135deg,
+#7c5cff,
+#4d9cff
+);
+
+font-size:29px;
+
+font-weight:900;
+
+box-shadow:
+0 0 45px #7c5cff55;
+
+margin-bottom:25px;
+}
+
+h1{
+font-size:
+clamp(42px,7vw,72px);
+
+letter-spacing:-3px;
+
+margin:0;
+}
+
+.gradient{
+background:
+linear-gradient(
+90deg,
+#fff,
+#a994ff,
+#78b1ff,
+#fff
+);
+
+background-size:250%;
+
+-webkit-background-clip:text;
+background-clip:text;
+
+color:transparent;
+
+animation:
+shine 5s linear infinite;
+}
+
+@keyframes shine{
+to{
+background-position:250%;
+}
+}
+
+.intro{
+max-width:700px;
+
+color:#aeb6c6;
+
+font-size:17px;
+
+line-height:1.7;
+
+margin-top:22px;
+}
+
+.grid-cards{
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:18px;
+
+margin-top:55px;
+}
+
+.card{
+padding:28px;
+
+min-height:210px;
+
+border:
+1px solid #ffffff15;
+
+border-radius:18px;
+
+background:
+rgba(16,20,28,.65);
+
+backdrop-filter:
+blur(18px);
+
+box-shadow:
+0 20px 50px #0005;
+
+transition:
+transform .3s,
+border-color .3s;
+}
+
+.card:hover{
+transform:
+translateY(-8px);
+
+border-color:
+#7c5cff66;
+}
+
+.icon{
+width:48px;
+height:48px;
+
+display:grid;
+place-items:center;
+
+border-radius:13px;
+
+background:
+#7c5cff1a;
+
+color:#a994ff;
+
+font-size:21px;
+
+margin-bottom:20px;
+}
+
+.card h2{
+font-size:20px;
+
+margin:0 0 10px;
+}
+
+.card p{
+color:#8f99a9;
+
+font-size:13px;
+
+line-height:1.7;
+
+margin:0;
+}
+
+.back{
+margin-top:45px;
+
+padding:13px 20px;
+
+border-radius:10px;
+
+border:
+1px solid #343b49;
+
+background:#11151d;
+
+color:#fff;
+
+font-weight:800;
+
+cursor:pointer;
+}
+
+.back:hover{
+border-color:#7c5cff;
+}
+
+@media(max-width:800px){
+
+.grid-cards{
+grid-template-columns:1fr;
+}
+
 }
 
 </style>
 
 </head>
 
+
 <body>
 
-${siteHTML}
+<div class="background"></div>
+
+<div class="grid"></div>
+
+
+<main class="container">
+
+<div class="logo">
+S
+</div>
+
+
+<h1>
+Tudo para criar seu
+<span class="gradient">
+site.
+</span>
+</h1>
+
+
+<p class="intro">
+O SiteBuilder foi pensado para transformar uma ideia
+em uma página de verdade. Personalize, visualize,
+teste e baixe seu projeto sem precisar começar
+tudo do zero.
+</p>
+
+
+<section class="grid-cards">
+
+
+<div class="card">
+
+<div class="icon">
+✦
+</div>
+
+<h2>
+Editor em tempo real
+</h2>
+
+<p>
+Altere textos, cores, fontes e informações
+e acompanhe imediatamente o resultado
+da sua página.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🖥
+</div>
+
+<h2>
+Computador e celular
+</h2>
+
+<p>
+Veja como seu site pode ficar em uma tela
+grande ou em um dispositivo móvel.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🎨
+</div>
+
+<h2>
+Personalização
+</h2>
+
+<p>
+Escolha cores, fonte, imagem de capa,
+textos, serviços e outras informações.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🖼
+</div>
+
+<h2>
+Imagem de capa
+</h2>
+
+<p>
+Use uma imagem por URL para deixar
+a apresentação do seu site mais visual.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+👁
+</div>
+
+<h2>
+Pré-visualização
+</h2>
+
+<p>
+Abra uma visualização completa da página
+para conferir o resultado antes de utilizar.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+↓
+</div>
+
+<h2>
+Baixe seu site
+</h2>
+
+<p>
+Exporte sua página como um arquivo HTML
+e tenha o código do projeto em mãos.
+</p>
+
+</div>
+
+
+</section>
+
+
+<button
+class="back"
+onclick="window.close()"
+>
+← Voltar para o SiteBuilder
+</button>
+
+
+</main>
 
 </body>
 
-</html>`;
+</html>
+`;
 
 
-  const blob =
+  const blob=
     new Blob(
-      [page],
+      [featuresHTML],
       {type:"text/html"}
     );
 
 
-  const url =
+  const url=
     URL.createObjectURL(blob);
 
 
@@ -1920,16 +2694,309 @@ ${siteHTML}
 }
 
 
-function downloadSite(){
+/* =========================
+   RENDER
+========================= */
 
-  const siteHTML =
-    $("site").outerHTML;
+function render(){
 
-  const styles =
-    document.querySelector("style").innerHTML;
+  const accent=
+    document.getElementById("accent").value;
+
+  const heroColor=
+    document.getElementById("heroColor").value;
+
+  const image=
+    document.getElementById("image")
+    .value
+    .trim();
 
 
-  const page = `
+  document.documentElement
+    .style.setProperty(
+      "--accent",
+      accent
+    );
+
+
+  document.getElementById("outName")
+    .textContent=
+      document.getElementById("name")
+      .value ||
+      "Minha Empresa";
+
+
+  document.getElementById("outTitle")
+    .textContent=
+      document.getElementById("title")
+      .value ||
+      "Seu próximo projeto começa aqui.";
+
+
+  document.getElementById("outDescription")
+    .textContent=
+      document.getElementById("description")
+      .value ||
+      "";
+
+
+  document.getElementById("outButton")
+    .textContent=
+      document.getElementById("buttonText")
+      .value ||
+      "Saiba mais";
+
+
+  document.getElementById("outButton")
+    .href=
+      document.getElementById("buttonLink")
+      .value ||
+      "#";
+
+
+  document.getElementById("outAboutTitle")
+    .textContent=
+      document.getElementById("aboutTitle")
+      .value ||
+      "Sobre nós";
+
+
+  document.getElementById("outAboutText")
+    .textContent=
+      document.getElementById("aboutText")
+      .value ||
+      "";
+
+
+  document.getElementById("outS1")
+    .textContent=
+      document.getElementById("s1")
+      .value ||
+      "Serviço";
+
+
+  document.getElementById("outS1d")
+    .textContent=
+      document.getElementById("s1d")
+      .value ||
+      "";
+
+
+  document.getElementById("outS2")
+    .textContent=
+      document.getElementById("s2")
+      .value ||
+      "Serviço";
+
+
+  document.getElementById("outS2d")
+    .textContent=
+      document.getElementById("s2d")
+      .value ||
+      "";
+
+
+  document.getElementById("outS3")
+    .textContent=
+      document.getElementById("s3")
+      .value ||
+      "Serviço";
+
+
+  document.getElementById("outS3d")
+    .textContent=
+      document.getElementById("s3d")
+      .value ||
+      "";
+
+
+  document.getElementById("outPhone")
+    .textContent=
+      "📱 " +
+      (
+        document.getElementById("phone")
+        .value || ""
+      );
+
+
+  document.getElementById("outEmail")
+    .textContent=
+      "✉ " +
+      (
+        document.getElementById("email")
+        .value || ""
+      );
+
+
+  document.getElementById("outLocation")
+    .textContent=
+      "📍 " +
+      (
+        document.getElementById("location")
+        .value || ""
+      );
+
+
+  document.getElementById("siteHeader")
+    .style.background=
+      accent;
+
+
+  document.getElementById("outButton")
+    .style.background=
+      accent;
+
+
+  document.getElementById("hero")
+    .style.backgroundColor=
+      heroColor;
+
+
+  if(image){
+
+    document.getElementById("hero")
+      .style.backgroundImage=
+        `url("${image}")`;
+
+  }else{
+
+    document.getElementById("hero")
+      .style.backgroundImage=
+        "none";
+
+  }
+
+
+  document
+    .querySelectorAll(".icon")
+    .forEach(icon=>{
+
+      icon.style.background=
+        accent + "22";
+
+      icon.style.color=
+        accent;
+
+    });
+
+
+  document.getElementById("site")
+    .style.fontFamily=
+      document.getElementById("font")
+      .value +
+      ", sans-serif";
+
+}
+
+
+/* =========================
+   VISUALIZAÇÃO
+========================= */
+
+function setView(type){
+
+  if(type==="mobile"){
+
+    document.getElementById("site")
+      .classList.add("mobile");
+
+    document.getElementById("mobileBtn")
+      .classList.add("active");
+
+    document.getElementById("desktopBtn")
+      .classList.remove("active");
+
+  }else{
+
+    document.getElementById("site")
+      .classList.remove("mobile");
+
+    document.getElementById("desktopBtn")
+      .classList.add("active");
+
+    document.getElementById("mobileBtn")
+      .classList.remove("active");
+
+  }
+
+}
+
+
+/* =========================
+   SEÇÕES
+========================= */
+
+function toggleSection(id){
+
+  document.getElementById(id)
+    .classList.toggle("hidden");
+
+}
+
+
+/* =========================
+   INÍCIO
+========================= */
+
+function backHome(){
+
+  document.getElementById("editor")
+    .classList.remove("visible");
+
+  document.getElementById("welcome")
+    .style.display="block";
+
+  setTimeout(()=>{
+
+    document.getElementById("welcome")
+      .classList.remove("hide");
+
+  },20);
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetSite(){
+
+  if(
+    confirm(
+      "Deseja reiniciar o projeto?"
+    )
+  ){
+
+    location.reload();
+
+  }
+
+}
+
+
+/* =========================
+   PREVIEW
+========================= */
+
+function openFullPreview(){
+
+  const siteHTML=
+    document.getElementById("site")
+    .outerHTML;
+
+  const styles=
+    document.querySelector("style")
+    .innerHTML;
+
+
+  const page=`
+
 <!DOCTYPE html>
 
 <html lang="pt-BR">
@@ -1945,7 +3012,7 @@ content="width=device-width,initial-scale=1.0"
 
 <title>
 ${escapeHTML(
-  $("name").value ||
+  document.getElementById("name").value ||
   "Meu Site"
 )}
 </title>
@@ -1977,21 +3044,117 @@ ${siteHTML}
 
 </body>
 
-</html>`;
+</html>
+`;
 
 
-  const blob =
+  const blob=
     new Blob(
       [page],
       {type:"text/html"}
     );
 
 
-  const url =
+  const url=
     URL.createObjectURL(blob);
 
 
-  const a =
+  window.open(
+    url,
+    "_blank"
+  );
+
+
+  setTimeout(
+    ()=>{
+      URL.revokeObjectURL(url);
+    },
+    60000
+  );
+
+}
+
+
+/* =========================
+   DOWNLOAD
+========================= */
+
+function downloadSite(){
+
+  const siteHTML=
+    document.getElementById("site")
+    .outerHTML;
+
+  const styles=
+    document.querySelector("style")
+    .innerHTML;
+
+
+  const page=`
+
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+>
+
+<title>
+${escapeHTML(
+  document.getElementById("name").value ||
+  "Meu Site"
+)}
+</title>
+
+<style>
+
+${styles}
+
+body{
+margin:0;
+background:#fff;
+}
+
+.site{
+max-width:none!important;
+width:100%!important;
+margin:0!important;
+border-radius:0!important;
+box-shadow:none!important;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${siteHTML}
+
+</body>
+
+</html>
+`;
+
+
+  const blob=
+    new Blob(
+      [page],
+      {type:"text/html"}
+    );
+
+
+  const url=
+    URL.createObjectURL(blob);
+
+
+  const a=
     document.createElement("a");
 
 
@@ -2018,6 +3181,10 @@ ${siteHTML}
 }
 
 
+/* =========================
+   SEGURANÇA
+========================= */
+
 function escapeHTML(value){
 
   return String(value)
@@ -2030,7 +3197,9 @@ function escapeHTML(value){
 }
 
 
-/* Inicialização */
+/* =========================
+   INICIALIZAÇÃO
+========================= */
 
 render();
 

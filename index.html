@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToolBox Site Builder</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f6f8;
+      color: #111827;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 22px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 28px;
+    }
+
+    header p {
+      margin-top: 8px;
+      color: #d1d5db;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: 25px;
+    }
+
+    .panel,
+    .preview {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .panel h2 {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    input[type="color"] {
+      height: 45px;
+      padding: 4px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 13px;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .preview h2 {
+      margin-bottom: 15px;
+    }
+
+    #sitePreview {
+      min-height: 450px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .site-header {
+      padding: 30px;
+      color: white;
+      text-align: center;
+    }
+
+    .site-content {
+      padding: 45px 25px;
+      text-align: center;
+    }
+
+    .site-content h1 {
+      font-size: 36px;
+      margin-bottom: 15px;
+    }
+
+    .site-content p {
+      font-size: 18px;
+      color: #4b5563;
+      margin-bottom: 25px;
+    }
+
+    .site-button {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    @media (max-width: 800px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>ToolBox Site Builder</h1>
+    <p>Crie seu próprio site gratuitamente.</p>
+  </header>
+
+  <div class="container">
+
+    <div class="panel">
+      <h2>Personalize seu site</h2>
+
+      <label for="siteName">Nome do site</label>
+      <input id="siteName" type="text" placeholder="Ex: Minha Empresa">
+
+      <label for="description">Descrição</label>
+      <textarea id="description" placeholder="Digite uma descrição para seu site"></textarea>
+
+      <label for="buttonText">Texto do botão</label>
+      <input id="buttonText" type="text" placeholder="Ex: Fale conosco">
+
+      <label for="buttonLink">Link do botão</label>
+      <input id="buttonLink" type="text" placeholder="https://...">
+
+      <label for="color">Cor principal</label>
+      <input id="color" type="color" value="#2563eb">
+
+      <button onclick="updateSite()">Atualizar site</button>
+    </div>
+
+    <div class="preview">
+      <h2>Pré-visualização</h2>
+
+      <div id="sitePreview">
+
+        <div class="site-header" id="previewHeader">
+          <h2 id="previewName">Seu site</h2>
+        </div>
+
+        <div class="site-content">
+          <h1 id="previewTitle">Bem-vindo!</h1>
+
+          <p id="previewDescription">
+            Sua descrição aparecerá aqui.
+          </p>
+
+          <a
+            id="previewButton"
+            class="site-button"
+            href="#"
+            target="_blank">
+            Saiba mais
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function updateSite() {
+
+      const name =
+        document.getElementById("siteName").value ||
+        "Seu site";
+
+      const description =
+        document.getElementById("description").value ||
+        "Sua descrição aparecerá aqui.";
+
+      const buttonText =
+        document.getElementById("buttonText").value ||
+        "Saiba mais";
+
+      const buttonLink =
+        document.getElementById("buttonLink").value ||
+        "#";
+
+      const color =
+        document.getElementById("color").value;
+
+      document.getElementById("previewName").textContent = name;
+
+      document.getElementById("previewTitle").textContent =
+        "Bem-vindo ao " + name;
+
+      document.getElementById("previewDescription").textContent =
+        description;
+
+      document.getElementById("previewButton").textContent =
+        buttonText;
+
+      document.getElementById("previewButton").href =
+        buttonLink;
+
+      document.getElementById("previewHeader").style.background =
+        color;
+
+      document.getElementById("previewButton").style.background =
+        color;
+    }
+  </script>
+
+</body>
+</html>

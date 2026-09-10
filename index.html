@@ -7,833 +7,2030 @@
 
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:Inter,Arial,sans-serif;background:#07090d;color:#fff}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Inter,Arial,sans-serif;
+  background:#07090d;
+  color:#fff;
+}
+
+body{overflow-x:hidden}
+
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 
 :root{
- --accent:#7c5cff;
- --dark:#07090d;
- --panel:#10141c;
- --border:#252b36;
+  --accent:#7c5cff;
+  --accent2:#5b8cff;
+  --bg:#07090d;
+  --panel:#10141c;
+  --border:#252b36;
+}
+
+
+/* =========================
+   TELA DE BOAS-VINDAS
+========================= */
+
+#welcome{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  overflow:auto;
+  background:
+    radial-gradient(circle at 20% 20%,#7c5cff22,transparent 30%),
+    radial-gradient(circle at 80% 70%,#3d8cff1b,transparent 32%),
+    #07090d;
+  transition:opacity .5s ease,transform .5s ease;
+}
+
+#welcome.hide{
+  opacity:0;
+  transform:scale(1.03);
+  pointer-events:none;
+}
+
+.background-grid{
+  position:absolute;
+  inset:0;
+  opacity:.22;
+  background-image:
+    linear-gradient(#ffffff08 1px,transparent 1px),
+    linear-gradient(90deg,#ffffff08 1px,transparent 1px);
+  background-size:45px 45px;
+  mask-image:linear-gradient(to bottom,#000,transparent);
+}
+
+.orb{
+  position:absolute;
+  width:280px;
+  height:280px;
+  border-radius:50%;
+  filter:blur(80px);
+  opacity:.25;
+  animation:float 7s ease-in-out infinite;
+}
+
+.orb.one{
+  background:#7c5cff;
+  left:8%;
+  top:15%;
+}
+
+.orb.two{
+  background:#328cff;
+  right:8%;
+  bottom:10%;
+  animation-delay:2s;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0) translateX(0)}
+  50%{transform:translateY(-30px) translateX(15px)}
+}
+
+.welcome-content{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:70px 25px 45px;
+  text-align:center;
+}
+
+.welcome-logo{
+  width:64px;
+  height:64px;
+  display:grid;
+  place-items:center;
+  border-radius:19px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:0 0 55px #7c5cff55;
+  font-size:31px;
+  font-weight:900;
+  margin-bottom:25px;
+  animation:logoIn .8s ease both;
+}
+
+@keyframes logoIn{
+  from{opacity:0;transform:scale(.6) rotate(-12deg)}
+  to{opacity:1;transform:scale(1) rotate(0)}
+}
+
+.welcome-content h1{
+  margin:0;
+  max-width:900px;
+  font-size:clamp(44px,8vw,82px);
+  line-height:.98;
+  letter-spacing:-4px;
+  animation:rise .8s .1s ease both;
+}
+
+.gradient-text{
+  background:linear-gradient(90deg,#fff,#a994ff,#78a8ff,#fff);
+  background-size:250%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:shine 5s linear infinite;
+}
+
+@keyframes shine{
+  to{background-position:250%}
+}
+
+.welcome-sub{
+  max-width:680px;
+  margin:25px auto 0;
+  color:#aeb6c6;
+  font-size:17px;
+  line-height:1.7;
+  animation:rise .8s .2s ease both;
+}
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(25px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.welcome-actions{
+  display:flex;
+  gap:12px;
+  margin-top:30px;
+  animation:rise .8s .3s ease both;
+}
+
+.welcome-btn{
+  border:1px solid #343b49;
+  background:#11151d;
+  color:#fff;
+  padding:13px 20px;
+  border-radius:11px;
+  font-weight:800;
+}
+
+.welcome-btn.primary{
+  border:0;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:0 12px 35px #7c5cff33;
+}
+
+.welcome-btn:hover{
+  transform:translateY(-2px);
+}
+
+.examples{
+  width:min(1050px,100%);
+  margin-top:48px;
+  animation:rise .8s .4s ease both;
+}
+
+.examples-label{
+  color:#777f90;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:14px;
+}
+
+.example-window{
+  height:210px;
+  border:1px solid #2b3240;
+  border-radius:17px;
+  overflow:hidden;
+  background:#0e1219;
+  box-shadow:0 25px 70px #0008;
+  position:relative;
+}
+
+.window-top{
+  height:35px;
+  border-bottom:1px solid #252b36;
+  display:flex;
+  align-items:center;
+  padding:0 13px;
+  gap:6px;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#444b58;
+}
+
+.example-slides{
+  height:175px;
+  position:relative;
+}
+
+.example{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+  opacity:0;
+  transform:translateX(30px);
+  transition:.6s ease;
+}
+
+.example.active{
+  opacity:1;
+  transform:translateX(0);
+}
+
+.example-card{
+  width:100%;
+  max-width:760px;
+  height:125px;
+  border-radius:12px;
+  padding:25px;
+  text-align:left;
+  position:relative;
+  overflow:hidden;
+}
+
+.example-card h3{
+  margin:0 0 7px;
+  font-size:24px;
+}
+
+.example-card p{
+  margin:0;
+  color:#c1c7d1;
+  font-size:12px;
+}
+
+.ex1{
+  background:linear-gradient(135deg,#18122f,#5133b7);
+}
+
+.ex2{
+  background:linear-gradient(135deg,#101820,#087f8f);
+}
+
+.ex3{
+  background:linear-gradient(135deg,#25120d,#c9571d);
+}
+
+.example-dots{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  margin-top:13px;
+}
+
+.example-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#444b58;
+}
+
+.example-dot.active{
+  width:20px;
+  border-radius:20px;
+  background:var(--accent);
+}
+
+.scroll-hint{
+  margin-top:23px;
+  color:#697181;
+  font-size:11px;
+}
+
+
+/* =========================
+   EDITOR
+========================= */
+
+#editor{
+  display:none;
+}
+
+#editor.visible{
+  display:block;
+  animation:editorIn .5s ease;
+}
+
+@keyframes editorIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
 .top{
- height:70px;
- border-bottom:1px solid var(--border);
- background:#090b10;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:0 22px;
- position:sticky;
- top:0;
- z-index:50;
+  height:70px;
+  border-bottom:1px solid var(--border);
+  background:#090b10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 22px;
+  position:sticky;
+  top:0;
+  z-index:50;
 }
 
 .logo{
- width:40px;height:40px;border-radius:12px;
- display:grid;place-items:center;
- background:linear-gradient(135deg,#7c5cff,#4b8cff);
- font-weight:900;font-size:20px;
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  font-weight:900;
+  font-size:20px;
 }
 
-.brand{display:flex;align-items:center;gap:11px}
-.brand strong{font-size:22px}
-.brand strong span{color:#9b87ff}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
 
-.top-buttons{display:flex;gap:8px}
+.brand strong{
+  font-size:22px;
+}
+
+.brand strong span{
+  color:#9b87ff;
+}
+
+.top-buttons{
+  display:flex;
+  gap:8px;
+}
+
 .btn{
- background:#131720;
- color:#fff;
- border:1px solid var(--border);
- border-radius:9px;
- padding:10px 14px;
- font-weight:700;
+  background:#131720;
+  color:#fff;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:10px 14px;
+  font-weight:700;
 }
-.btn:hover{border-color:#667084}
-.btn.main{background:linear-gradient(135deg,#7c5cff,#5d8cff);border:0}
+
+.btn:hover{
+  border-color:#667084;
+}
+
+.btn.main{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:0;
+}
 
 .app{
- display:grid;
- grid-template-columns:330px 1fr;
- min-height:calc(100vh - 70px);
+  display:grid;
+  grid-template-columns:330px 1fr;
+  min-height:calc(100vh - 70px);
 }
 
 .panel{
- background:#0d1016;
- border-right:1px solid var(--border);
- overflow:auto;
- max-height:calc(100vh - 70px);
+  background:#0d1016;
+  border-right:1px solid var(--border);
+  overflow:auto;
+  max-height:calc(100vh - 70px);
 }
 
 .panel-title{
- padding:23px;
- border-bottom:1px solid var(--border);
+  padding:23px;
+  border-bottom:1px solid var(--border);
 }
-.panel-title h1{margin:0 0 7px;font-size:24px}
-.panel-title p{margin:0;color:#8992a1;font-size:13px;line-height:1.5}
+
+.panel-title h1{
+  margin:0 0 7px;
+  font-size:24px;
+}
+
+.panel-title p{
+  margin:0;
+  color:#8992a1;
+  font-size:13px;
+  line-height:1.5;
+}
 
 .section{
- padding:19px;
- border-bottom:1px solid var(--border);
-}
-.section h2{
- font-size:11px;
- letter-spacing:1px;
- text-transform:uppercase;
- color:#aeb7c6;
- margin:0 0 14px;
+  padding:19px;
+  border-bottom:1px solid var(--border);
 }
 
-.field{margin-bottom:13px}
-.field:last-child{margin-bottom:0}
+.section h2{
+  font-size:11px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:#aeb7c6;
+  margin:0 0 14px;
+}
+
+.field{
+  margin-bottom:13px;
+}
+
+.field:last-child{
+  margin-bottom:0;
+}
+
 label{
- display:block;
- font-size:12px;
- font-weight:700;
- color:#c9d0dc;
- margin-bottom:6px;
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  color:#c9d0dc;
+  margin-bottom:6px;
 }
 
 input,textarea,select{
- width:100%;
- border:1px solid var(--border);
- background:#080b10;
- color:#fff;
- border-radius:8px;
- padding:10px;
- outline:none;
+  width:100%;
+  border:1px solid var(--border);
+  background:#080b10;
+  color:#fff;
+  border-radius:8px;
+  padding:10px;
+  outline:none;
 }
-textarea{min-height:75px;resize:vertical}
+
+textarea{
+  min-height:75px;
+  resize:vertical;
+}
+
 input:focus,textarea:focus,select:focus{
- border-color:var(--accent);
- box-shadow:0 0 0 3px #7c5cff18;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px #7c5cff18;
 }
 
 .color-row{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:9px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
 }
-input[type=color]{height:42px;padding:3px}
+
+input[type=color]{
+  height:42px;
+  padding:3px;
+}
 
 .workspace{
- min-width:0;
- background:
- radial-gradient(circle at 50% 0,#7c5cff13,transparent 35%),
- #080a0f;
+  min-width:0;
+  background:
+    radial-gradient(circle at 50% 0,#7c5cff13,transparent 35%),
+    #080a0f;
 }
 
 .workspace-bar{
- height:55px;
- display:flex;
- justify-content:center;
- align-items:center;
- gap:8px;
- border-bottom:1px solid var(--border);
+  height:55px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  border-bottom:1px solid var(--border);
 }
 
 .mode{
- border:1px solid var(--border);
- background:#10141c;
- color:#aeb6c5;
- padding:8px 13px;
- border-radius:8px;
- font-size:12px;
- font-weight:700;
+  border:1px solid var(--border);
+  background:#10141c;
+  color:#aeb6c5;
+  padding:8px 13px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:700;
+  transition:.25s;
 }
-.mode.active{color:#fff;border-color:var(--accent);background:#7c5cff18}
+
+.mode.active{
+  color:#fff;
+  border-color:var(--accent);
+  background:#7c5cff18;
+  transform:translateY(-1px);
+}
 
 .canvas{
- padding:25px;
- overflow:auto;
- min-height:calc(100vh - 125px);
+  padding:25px;
+  overflow:auto;
+  min-height:calc(100vh - 125px);
 }
 
 .site{
- width:100%;
- max-width:1200px;
- margin:auto;
- min-height:900px;
- background:#fff;
- color:#111;
- overflow:hidden;
- box-shadow:0 25px 70px #0009;
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+  min-height:900px;
+  background:#fff;
+  color:#111;
+  overflow:hidden;
+  box-shadow:0 25px 70px #0009;
+  transition:.45s ease;
 }
 
-.site.mobile{max-width:390px}
+.site.mobile{
+  max-width:390px;
+}
 
 .site-header{
- min-height:70px;
- padding:0 38px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- color:#fff;
+  min-height:70px;
+  padding:0 38px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:#fff;
 }
 
-.site-name{font-size:21px;font-weight:900}
-.site-menu{display:flex;gap:23px;font-size:13px;font-weight:700}
+.site-name{
+  font-size:21px;
+  font-weight:900;
+}
+
+.site-menu{
+  display:flex;
+  gap:23px;
+  font-size:13px;
+  font-weight:700;
+}
 
 .hero{
- min-height:520px;
- display:flex;
- align-items:center;
- justify-content:center;
- text-align:center;
- padding:80px 30px;
- color:#fff;
- background:#151a2b;
- background-position:center;
- background-size:cover;
- position:relative;
+  min-height:520px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:80px 30px;
+  color:#fff;
+  background:#151a2b;
+  background-position:center;
+  background-size:cover;
+  position:relative;
 }
 
 .hero-overlay{
- position:absolute;
- inset:0;
- background:linear-gradient(135deg,#0008,#0003);
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#0008,#0003);
 }
 
-.hero-content{position:relative;max-width:800px;z-index:2}
+.hero-content{
+  position:relative;
+  max-width:800px;
+  z-index:2;
+}
+
 .hero h1{
- margin:0 0 20px;
- font-size:clamp(42px,6vw,72px);
- line-height:1;
- letter-spacing:-3px;
+  margin:0 0 20px;
+  font-size:clamp(42px,6vw,72px);
+  line-height:1;
+  letter-spacing:-3px;
 }
+
 .hero p{
- margin:0 auto 30px;
- max-width:680px;
- font-size:18px;
- line-height:1.65;
- opacity:.9;
+  margin:0 auto 30px;
+  max-width:680px;
+  font-size:18px;
+  line-height:1.65;
+  opacity:.9;
 }
+
 .hero a{
- display:inline-block;
- padding:14px 23px;
- border-radius:10px;
- color:#fff;
- text-decoration:none;
- font-weight:800;
+  display:inline-block;
+  padding:14px 23px;
+  border-radius:10px;
+  color:#fff;
+  text-decoration:none;
+  font-weight:800;
 }
 
 .block{
- padding:80px 45px;
- text-align:center;
+  padding:80px 45px;
+  text-align:center;
 }
-.block.alt{background:#f4f6f8}
-.block h2{font-size:36px;margin:0 0 14px}
+
+.block.alt{
+  background:#f4f6f8;
+}
+
+.block h2{
+  font-size:36px;
+  margin:0 0 14px;
+}
+
 .block-intro{
- max-width:700px;
- margin:auto;
- color:#68717a;
- line-height:1.7;
+  max-width:700px;
+  margin:auto;
+  color:#68717a;
+  line-height:1.7;
 }
 
 .cards{
- max-width:980px;
- margin:38px auto 0;
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:18px;
+  max-width:980px;
+  margin:38px auto 0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
 }
+
 .card{
- background:#fff;
- border:1px solid #e0e4e9;
- border-radius:16px;
- padding:27px;
- text-align:left;
+  background:#fff;
+  border:1px solid #e0e4e9;
+  border-radius:16px;
+  padding:27px;
+  text-align:left;
 }
+
 .icon{
- width:46px;height:46px;
- border-radius:12px;
- display:grid;
- place-items:center;
- margin-bottom:17px;
- font-size:20px;
+  width:46px;
+  height:46px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  margin-bottom:17px;
+  font-size:20px;
 }
-.card h3{margin:0 0 9px}
-.card p{margin:0;color:#69727d;line-height:1.6;font-size:13px}
+
+.card h3{
+  margin:0 0 9px;
+}
+
+.card p{
+  margin:0;
+  color:#69727d;
+  line-height:1.6;
+  font-size:13px;
+}
 
 .contact{
- background:#11151c;
- color:#fff;
+  background:#11151c;
+  color:#fff;
 }
-.contact .block-intro{color:#aeb6c2}
-.contact-data{margin-top:25px;line-height:2;color:#c5cbd4}
+
+.contact .block-intro{
+  color:#aeb6c2;
+}
+
+.contact-data{
+  margin-top:25px;
+  line-height:2;
+  color:#c5cbd4;
+}
 
 .footer{
- padding:27px;
- text-align:center;
- background:#080a0e;
- color:#aeb5c0;
- font-size:12px;
+  padding:27px;
+  text-align:center;
+  background:#080a0e;
+  color:#aeb5c0;
+  font-size:12px;
 }
 
-.hidden{display:none!important}
+.hidden{
+  display:none!important;
+}
+
+
+/* =========================
+   RESPONSIVO
+========================= */
 
 @media(max-width:800px){
- .app{grid-template-columns:1fr}
- .panel{max-height:none;border-right:0;border-bottom:1px solid var(--border)}
- .site-menu{display:none}
- .cards{grid-template-columns:1fr}
- .canvas{padding:12px}
- .block{padding:60px 25px}
- .hero{min-height:500px}
+
+  .app{
+    grid-template-columns:1fr;
+  }
+
+  .panel{
+    max-height:none;
+    border-right:0;
+    border-bottom:1px solid var(--border);
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .canvas{
+    padding:12px;
+  }
+
+  .block{
+    padding:60px 25px;
+  }
+
+  .hero{
+    min-height:500px;
+  }
+
+  .site-menu{
+    display:none;
+  }
 }
 
-@media(max-width:520px){
- .top{padding:0 12px}
- .brand strong{font-size:18px}
- .top-buttons .btn:first-child{display:none}
+@media(max-width:600px){
+
+  .top{
+    padding:0 12px;
+  }
+
+  .brand strong{
+    font-size:18px;
+  }
+
+  .top-buttons .btn:first-child{
+    display:none;
+  }
+
+  .welcome-actions{
+    flex-direction:column;
+    width:100%;
+    max-width:300px;
+  }
+
+  .welcome-btn{
+    width:100%;
+  }
+
+  .welcome-content h1{
+    letter-spacing:-2px;
+  }
+
 }
 </style>
 </head>
 
 <body>
 
+
+<!-- =========================
+     BOAS-VINDAS
+========================= -->
+
+<section id="welcome">
+
+  <div class="background-grid"></div>
+
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+
+  <div class="welcome-content">
+
+    <div class="welcome-logo">S</div>
+
+    <h1>
+      Bem-vindo ao
+      <span class="gradient-text">SiteBuilder</span>
+    </h1>
+
+    <p class="welcome-sub">
+      Transforme suas ideias em páginas modernas.
+      Personalize seu site, veja o resultado em tempo real
+      e construa sua presença na internet.
+    </p>
+
+    <div class="welcome-actions">
+
+      <button class="welcome-btn primary" onclick="startBuilder()">
+        ✦ Começar a criar
+      </button>
+
+      <button class="welcome-btn" onclick="showFeatures()">
+        Conhecer recursos
+      </button>
+
+    </div>
+
+
+    <div class="examples">
+
+      <div class="examples-label">
+        Exemplos do que você pode criar
+      </div>
+
+      <div class="example-window">
+
+        <div class="window-top">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+
+        <div class="example-slides">
+
+          <div class="example active">
+            <div class="example-card ex1">
+              <h3>Portfólio profissional</h3>
+              <p>Apresente seus projetos, experiências e trabalhos.</p>
+            </div>
+          </div>
+
+          <div class="example">
+            <div class="example-card ex2">
+              <h3>Sua empresa online</h3>
+              <p>Mostre seus serviços e facilite o contato com seus clientes.</p>
+            </div>
+          </div>
+
+          <div class="example">
+            <div class="example-card ex3">
+              <h3>Produto ou negócio</h3>
+              <p>Crie uma página para divulgar sua ideia, produto ou marca.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="example-dots">
+        <div class="example-dot active"></div>
+        <div class="example-dot"></div>
+        <div class="example-dot"></div>
+      </div>
+
+    </div>
+
+    <div class="scroll-hint">
+      Crie. Personalize. Publique.
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     EDITOR
+========================= -->
+
+<section id="editor">
+
 <header class="top">
 
- <div class="brand">
-  <div class="logo">S</div>
-  <strong>Site<span>Builder</span></strong>
- </div>
+  <div class="brand">
 
- <div class="top-buttons">
-  <button class="btn" onclick="resetSite()">↻ Reiniciar</button>
-  <button class="btn" onclick="openFullPreview()">↗ Visualizar site</button>
-  <button class="btn main" onclick="downloadSite()">↓ Baixar site</button>
- </div>
+    <div class="logo">S</div>
+
+    <strong>
+      Site<span>Builder</span>
+    </strong>
+
+  </div>
+
+
+  <div class="top-buttons">
+
+    <button class="btn" onclick="backHome()">
+      ← Início
+    </button>
+
+    <button class="btn" onclick="resetSite()">
+      ↻ Reiniciar
+    </button>
+
+    <button class="btn" onclick="openFullPreview()">
+      ↗ Visualizar site
+    </button>
+
+    <button class="btn main" onclick="downloadSite()">
+      ↓ Baixar site
+    </button>
+
+  </div>
 
 </header>
 
 
 <div class="app">
 
+
 <aside class="panel">
 
- <div class="panel-title">
-  <h1>Crie seu site</h1>
-  <p>Personalize sua página e veja o resultado sendo construído em tempo real.</p>
- </div>
+  <div class="panel-title">
 
+    <h1>Crie seu site</h1>
 
- <div class="section">
-
-  <h2>Identidade</h2>
-
-  <div class="field">
-   <label>Nome do site</label>
-   <input id="name" value="Minha Empresa" oninput="render()">
-  </div>
-
-  <div class="field">
-   <label>Título principal</label>
-   <input id="title" value="Seu próximo projeto começa aqui." oninput="render()">
-  </div>
-
-  <div class="field">
-   <label>Descrição principal</label>
-   <textarea id="description" oninput="render()">Crie uma presença online moderna, profissional e feita para você.</textarea>
-  </div>
-
- </div>
-
-
- <div class="section">
-
-  <h2>Aparência</h2>
-
-  <div class="color-row">
-
-   <div class="field">
-    <label>Cor principal</label>
-    <input id="accent" type="color" value="#7c5cff" oninput="render()">
-   </div>
-
-   <div class="field">
-    <label>Cor do herói</label>
-    <input id="heroColor" type="color" value="#151a2b" oninput="render()">
-   </div>
+    <p>
+      Personalize sua página e veja o resultado
+      sendo construído em tempo real.
+    </p>
 
   </div>
 
-  <div class="field">
-   <label>Fonte</label>
-   <select id="font" onchange="render()">
-    <option value="Inter">Moderna</option>
-    <option value="Arial">Clássica</option>
-    <option value="Georgia">Elegante</option>
-   </select>
+
+  <div class="section">
+
+    <h2>Identidade</h2>
+
+    <div class="field">
+
+      <label>Nome do site</label>
+
+      <input
+        id="name"
+        value="Minha Empresa"
+        oninput="render()"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Título principal</label>
+
+      <input
+        id="title"
+        value="Seu próximo projeto começa aqui."
+        oninput="render()"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Descrição principal</label>
+
+      <textarea
+        id="description"
+        oninput="render()"
+      >Crie uma presença online moderna, profissional e feita para você.</textarea>
+
+    </div>
+
   </div>
 
-  <div class="field">
-   <label>Imagem de capa</label>
-   <input id="image" placeholder="URL da imagem" oninput="render()">
+
+  <div class="section">
+
+    <h2>Aparência</h2>
+
+    <div class="color-row">
+
+      <div class="field">
+
+        <label>Cor principal</label>
+
+        <input
+          id="accent"
+          type="color"
+          value="#7c5cff"
+          oninput="render()"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Cor do herói</label>
+
+        <input
+          id="heroColor"
+          type="color"
+          value="#151a2b"
+          oninput="render()"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Fonte</label>
+
+      <select id="font" onchange="render()">
+
+        <option value="Inter">
+          Moderna
+        </option>
+
+        <option value="Arial">
+          Clássica
+        </option>
+
+        <option value="Georgia">
+          Elegante
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Imagem de capa</label>
+
+      <input
+        id="image"
+        placeholder="Cole a URL de uma imagem"
+        oninput="render()"
+      >
+
+    </div>
+
   </div>
 
- </div>
+
+  <div class="section">
+
+    <h2>Botão principal</h2>
+
+    <div class="field">
+
+      <label>Texto do botão</label>
+
+      <input
+        id="buttonText"
+        value="Conheça nosso trabalho"
+        oninput="render()"
+      >
+
+    </div>
 
 
- <div class="section">
+    <div class="field">
 
-  <h2>Botão principal</h2>
+      <label>Link do botão</label>
 
-  <div class="field">
-   <label>Texto do botão</label>
-   <input id="buttonText" value="Conheça nosso trabalho" oninput="render()">
+      <input
+        id="buttonLink"
+        value="#"
+        oninput="render()"
+      >
+
+    </div>
+
   </div>
 
-  <div class="field">
-   <label>Link do botão</label>
-   <input id="buttonLink" value="#" oninput="render()">
+
+  <div class="section">
+
+    <h2>Seção Sobre</h2>
+
+    <div class="field">
+
+      <label>Título</label>
+
+      <input
+        id="aboutTitle"
+        value="Sobre nós"
+        oninput="render()"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Texto</label>
+
+      <textarea
+        id="aboutText"
+        oninput="render()"
+      >Conte aqui a história da sua empresa, marca ou projeto.</textarea>
+
+    </div>
+
   </div>
 
- </div>
+
+  <div class="section">
+
+    <h2>Serviços</h2>
+
+    <div class="field">
+
+      <label>Serviço 1</label>
+
+      <input
+        id="s1"
+        value="Qualidade"
+        oninput="render()"
+      >
+
+    </div>
 
 
- <div class="section">
+    <div class="field">
 
-  <h2>Seção Sobre</h2>
+      <label>Descrição 1</label>
 
-  <div class="field">
-   <label>Título</label>
-   <input id="aboutTitle" value="Sobre nós" oninput="render()">
+      <input
+        id="s1d"
+        value="Soluções pensadas para você."
+        oninput="render()"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Serviço 2</label>
+
+      <input
+        id="s2"
+        value="Tecnologia"
+        oninput="render()"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Descrição 2</label>
+
+      <input
+        id="s2d"
+        value="Ferramentas modernas e eficientes."
+        oninput="render()"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Serviço 3</label>
+
+      <input
+        id="s3"
+        value="Suporte"
+        oninput="render()"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Descrição 3</label>
+
+      <input
+        id="s3d"
+        value="Estamos aqui para ajudar."
+        oninput="render()"
+      >
+
+    </div>
+
   </div>
 
-  <div class="field">
-   <label>Texto</label>
-   <textarea id="aboutText" oninput="render()">Conte aqui a história da sua empresa, marca ou projeto.</textarea>
+
+  <div class="section">
+
+    <h2>Contato</h2>
+
+    <div class="field">
+
+      <label>Telefone / WhatsApp</label>
+
+      <input
+        id="phone"
+        value="(00) 00000-0000"
+        oninput="render()"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>E-mail</label>
+
+      <input
+        id="email"
+        value="contato@exemplo.com"
+        oninput="render()"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Localização</label>
+
+      <input
+        id="location"
+        value="Sua cidade — Brasil"
+        oninput="render()"
+      >
+
+    </div>
+
   </div>
 
- </div>
+
+  <div class="section">
+
+    <h2>Exibição</h2>
+
+    <div class="field">
+
+      <button
+        class="btn"
+        style="width:100%"
+        onclick="toggleSection('about')"
+      >
+        Mostrar / ocultar Sobre
+      </button>
+
+    </div>
 
 
- <div class="section">
+    <div class="field">
 
-  <h2>Serviços</h2>
+      <button
+        class="btn"
+        style="width:100%"
+        onclick="toggleSection('services')"
+      >
+        Mostrar / ocultar Serviços
+      </button>
 
-  <div class="field">
-   <label>Serviço 1</label>
-   <input id="s1" value="Qualidade" oninput="render()">
+    </div>
+
+
+    <div class="field">
+
+      <button
+        class="btn"
+        style="width:100%"
+        onclick="toggleSection('contact')"
+      >
+        Mostrar / ocultar Contato
+      </button>
+
+    </div>
+
   </div>
-
-  <div class="field">
-   <label>Descrição 1</label>
-   <input id="s1d" value="Soluções pensadas para você." oninput="render()">
-  </div>
-
-  <div class="field">
-   <label>Serviço 2</label>
-   <input id="s2" value="Tecnologia" oninput="render()">
-  </div>
-
-  <div class="field">
-   <label>Descrição 2</label>
-   <input id="s2d" value="Ferramentas modernas e eficientes." oninput="render()">
-  </div>
-
-  <div class="field">
-   <label>Serviço 3</label>
-   <input id="s3" value="Suporte" oninput="render()">
-  </div>
-
-  <div class="field">
-   <label>Descrição 3</label>
-   <input id="s3d" value="Estamos aqui para ajudar." oninput="render()">
-  </div>
-
- </div>
-
-
- <div class="section">
-
-  <h2>Contato</h2>
-
-  <div class="field">
-   <label>Telefone / WhatsApp</label>
-   <input id="phone" value="(00) 00000-0000" oninput="render()">
-  </div>
-
-  <div class="field">
-   <label>E-mail</label>
-   <input id="email" value="contato@exemplo.com" oninput="render()">
-  </div>
-
-  <div class="field">
-   <label>Localização</label>
-   <input id="location" value="Sua cidade — Brasil" oninput="render()">
-  </div>
-
- </div>
-
-
- <div class="section">
-
-  <h2>Exibição</h2>
-
-  <div class="field">
-   <button class="btn" style="width:100%" onclick="toggleSection('about')">Mostrar / ocultar Sobre</button>
-  </div>
-
-  <div class="field">
-   <button class="btn" style="width:100%" onclick="toggleSection('services')">Mostrar / ocultar Serviços</button>
-  </div>
-
-  <div class="field">
-   <button class="btn" style="width:100%" onclick="toggleSection('contact')">Mostrar / ocultar Contato</button>
-  </div>
-
- </div>
 
 </aside>
 
 
+
 <main class="workspace">
 
- <div class="workspace-bar">
+  <div class="workspace-bar">
 
-  <button id="desktopBtn" class="mode active" onclick="setView('desktop')">
-   🖥 Computador
-  </button>
-
-  <button id="mobileBtn" class="mode" onclick="setView('mobile')">
-   📱 Celular
-  </button>
-
- </div>
+    <button
+      id="desktopBtn"
+      class="mode active"
+      onclick="setView('desktop')"
+    >
+      🖥 Computador
+    </button>
 
 
- <div class="canvas">
-
-  <div id="site" class="site">
-
-   <header id="siteHeader" class="site-header">
-
-    <div id="outName" class="site-name">Minha Empresa</div>
-
-    <nav class="site-menu">
-     <span>Início</span>
-     <span>Sobre</span>
-     <span>Serviços</span>
-     <span>Contato</span>
-    </nav>
-
-   </header>
-
-
-   <section id="hero" class="hero">
-
-    <div class="hero-overlay"></div>
-
-    <div class="hero-content">
-
-     <h1 id="outTitle">Seu próximo projeto começa aqui.</h1>
-
-     <p id="outDescription">
-      Crie uma presença online moderna, profissional e feita para você.
-     </p>
-
-     <a id="outButton" href="#" target="_blank">
-      Conheça nosso trabalho
-     </a>
-
-    </div>
-
-   </section>
-
-
-   <section id="about" class="block">
-
-    <h2 id="outAboutTitle">Sobre nós</h2>
-
-    <p id="outAboutText" class="block-intro">
-     Conte aqui a história da sua empresa, marca ou projeto.
-    </p>
-
-   </section>
-
-
-   <section id="services" class="block alt">
-
-    <h2>O que oferecemos</h2>
-
-    <p class="block-intro">
-     Apresente seus principais serviços, produtos ou benefícios.
-    </p>
-
-    <div class="cards">
-
-     <article class="card">
-      <div class="icon" id="icon1">✦</div>
-      <h3 id="outS1">Qualidade</h3>
-      <p id="outS1d">Soluções pensadas para você.</p>
-     </article>
-
-     <article class="card">
-      <div class="icon" id="icon2">⚡</div>
-      <h3 id="outS2">Tecnologia</h3>
-      <p id="outS2d">Ferramentas modernas e eficientes.</p>
-     </article>
-
-     <article class="card">
-      <div class="icon" id="icon3">✓</div>
-      <h3 id="outS3">Suporte</h3>
-      <p id="outS3d">Estamos aqui para ajudar.</p>
-     </article>
-
-    </div>
-
-   </section>
-
-
-   <section id="contact" class="block contact">
-
-    <h2>Entre em contato</h2>
-
-    <p class="block-intro">
-     Faça seu cliente encontrar você facilmente.
-    </p>
-
-    <div class="contact-data">
-
-     <div id="outPhone">📱 (00) 00000-0000</div>
-     <div id="outEmail">✉ contato@exemplo.com</div>
-     <div id="outLocation">📍 Sua cidade — Brasil</div>
-
-    </div>
-
-   </section>
-
-
-   <footer class="footer">
-    Criado com o <strong>SiteBuilder</strong>
-   </footer>
+    <button
+      id="mobileBtn"
+      class="mode"
+      onclick="setView('mobile')"
+    >
+      📱 Celular
+    </button>
 
   </div>
 
- </div>
+
+  <div class="canvas">
+
+    <div id="site" class="site">
+
+
+      <header
+        id="siteHeader"
+        class="site-header"
+      >
+
+        <div
+          id="outName"
+          class="site-name"
+        >
+          Minha Empresa
+        </div>
+
+
+        <nav class="site-menu">
+
+          <span>Início</span>
+          <span>Sobre</span>
+          <span>Serviços</span>
+          <span>Contato</span>
+
+        </nav>
+
+      </header>
+
+
+
+      <section
+        id="hero"
+        class="hero"
+      >
+
+        <div class="hero-overlay"></div>
+
+
+        <div class="hero-content">
+
+          <h1 id="outTitle">
+            Seu próximo projeto começa aqui.
+          </h1>
+
+
+          <p id="outDescription">
+            Crie uma presença online moderna,
+            profissional e feita para você.
+          </p>
+
+
+          <a
+            id="outButton"
+            href="#"
+            target="_blank"
+          >
+            Conheça nosso trabalho
+          </a>
+
+        </div>
+
+      </section>
+
+
+
+      <section
+        id="about"
+        class="block"
+      >
+
+        <h2 id="outAboutTitle">
+          Sobre nós
+        </h2>
+
+
+        <p
+          id="outAboutText"
+          class="block-intro"
+        >
+          Conte aqui a história da sua empresa,
+          marca ou projeto.
+        </p>
+
+      </section>
+
+
+
+      <section
+        id="services"
+        class="block alt"
+      >
+
+        <h2>
+          O que oferecemos
+        </h2>
+
+
+        <p class="block-intro">
+          Apresente seus principais serviços,
+          produtos ou benefícios.
+        </p>
+
+
+        <div class="cards">
+
+
+          <article class="card">
+
+            <div
+              class="icon"
+              id="icon1"
+            >
+              ✦
+            </div>
+
+            <h3 id="outS1">
+              Qualidade
+            </h3>
+
+            <p id="outS1d">
+              Soluções pensadas para você.
+            </p>
+
+          </article>
+
+
+          <article class="card">
+
+            <div
+              class="icon"
+              id="icon2"
+            >
+              ⚡
+            </div>
+
+            <h3 id="outS2">
+              Tecnologia
+            </h3>
+
+            <p id="outS2d">
+              Ferramentas modernas e eficientes.
+            </p>
+
+          </article>
+
+
+          <article class="card">
+
+            <div
+              class="icon"
+              id="icon3"
+            >
+              ✓
+            </div>
+
+            <h3 id="outS3">
+              Suporte
+            </h3>
+
+            <p id="outS3d">
+              Estamos aqui para ajudar.
+            </p>
+
+          </article>
+
+
+        </div>
+
+      </section>
+
+
+
+      <section
+        id="contact"
+        class="block contact"
+      >
+
+        <h2>
+          Entre em contato
+        </h2>
+
+
+        <p class="block-intro">
+          Faça seu cliente encontrar você facilmente.
+        </p>
+
+
+        <div class="contact-data">
+
+          <div id="outPhone">
+            📱 (00) 00000-0000
+          </div>
+
+          <div id="outEmail">
+            ✉ contato@exemplo.com
+          </div>
+
+          <div id="outLocation">
+            📍 Sua cidade — Brasil
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      <footer class="footer">
+
+        Criado com
+        <strong>SiteBuilder</strong>
+
+      </footer>
+
+
+    </div>
+
+  </div>
 
 </main>
 
 </div>
 
+</section>
+
+
 
 <script>
 
-const $ = id => document.getElementById(id);
+/* =========================
+   BOAS-VINDAS
+========================= */
+
+let currentSlide = 0;
+
+const examples =
+  document.querySelectorAll(".example");
+
+const dots =
+  document.querySelectorAll(".example-dot");
+
+
+function changeSlide(){
+
+  examples[currentSlide]
+    .classList.remove("active");
+
+  dots[currentSlide]
+    .classList.remove("active");
+
+  currentSlide =
+    (currentSlide + 1) % examples.length;
+
+  examples[currentSlide]
+    .classList.add("active");
+
+  dots[currentSlide]
+    .classList.add("active");
+
+}
+
+
+setInterval(changeSlide,3500);
+
+
+function startBuilder(){
+
+  const welcome =
+    document.getElementById("welcome");
+
+  const editor =
+    document.getElementById("editor");
+
+  welcome.classList.add("hide");
+
+  setTimeout(()=>{
+
+    welcome.style.display="none";
+
+    editor.classList.add("visible");
+
+    window.scrollTo({
+      top:0,
+      behavior:"instant"
+    });
+
+  },500);
+
+}
+
+
+function showFeatures(){
+
+  alert(
+    "No SiteBuilder você pode personalizar " +
+    "textos, cores, fontes, imagem de capa, " +
+    "botões, serviços, contato e visualizar " +
+    "o resultado em computador ou celular."
+  );
+
+}
+
+
+/* =========================
+   EDITOR
+========================= */
+
+const $ = id =>
+  document.getElementById(id);
+
 
 function render(){
 
- const accent = $("accent").value;
- const heroColor = $("heroColor").value;
- const image = $("image").value.trim();
+  const accent =
+    $("accent").value;
 
- document.documentElement.style.setProperty("--accent",accent);
+  const heroColor =
+    $("heroColor").value;
 
- $("outName").textContent =
-  $("name").value || "Minha Empresa";
+  const image =
+    $("image").value.trim();
 
- $("outTitle").textContent =
-  $("title").value || "Seu próximo projeto começa aqui.";
 
- $("outDescription").textContent =
-  $("description").value || "";
+  document.documentElement
+    .style.setProperty(
+      "--accent",
+      accent
+    );
 
- $("outButton").textContent =
-  $("buttonText").value || "Saiba mais";
 
- $("outButton").href =
-  $("buttonLink").value || "#";
+  $("outName").textContent =
+    $("name").value ||
+    "Minha Empresa";
 
- $("outAboutTitle").textContent =
-  $("aboutTitle").value || "Sobre nós";
 
- $("outAboutText").textContent =
-  $("aboutText").value || "";
+  $("outTitle").textContent =
+    $("title").value ||
+    "Seu próximo projeto começa aqui.";
 
- $("outS1").textContent = $("s1").value || "Serviço";
- $("outS1d").textContent = $("s1d").value || "";
 
- $("outS2").textContent = $("s2").value || "Serviço";
- $("outS2d").textContent = $("s2d").value || "";
+  $("outDescription").textContent =
+    $("description").value ||
+    "";
 
- $("outS3").textContent = $("s3").value || "Serviço";
- $("outS3d").textContent = $("s3d").value || "";
 
- $("outPhone").textContent =
-  "📱 " + ($("phone").value || "");
+  $("outButton").textContent =
+    $("buttonText").value ||
+    "Saiba mais";
 
- $("outEmail").textContent =
-  "✉ " + ($("email").value || "");
 
- $("outLocation").textContent =
-  "📍 " + ($("location").value || "");
+  $("outButton").href =
+    $("buttonLink").value ||
+    "#";
 
- $("siteHeader").style.background = accent;
 
- $("outButton").style.background = accent;
+  $("outAboutTitle").textContent =
+    $("aboutTitle").value ||
+    "Sobre nós";
 
- $("hero").style.backgroundColor = heroColor;
 
- if(image){
-  $("hero").style.backgroundImage =
-   `url("${image}")`;
- }else{
-  $("hero").style.backgroundImage = "none";
- }
+  $("outAboutText").textContent =
+    $("aboutText").value ||
+    "";
 
- document.querySelectorAll(".icon").forEach(icon=>{
-  icon.style.background = accent + "22";
-  icon.style.color = accent;
- });
 
- $("site").style.fontFamily =
-  $("font").value + ", sans-serif";
+  $("outS1").textContent =
+    $("s1").value ||
+    "Serviço";
+
+
+  $("outS1d").textContent =
+    $("s1d").value ||
+    "";
+
+
+  $("outS2").textContent =
+    $("s2").value ||
+    "Serviço";
+
+
+  $("outS2d").textContent =
+    $("s2d").value ||
+    "";
+
+
+  $("outS3").textContent =
+    $("s3").value ||
+    "Serviço";
+
+
+  $("outS3d").textContent =
+    $("s3d").value ||
+    "";
+
+
+  $("outPhone").textContent =
+    "📱 " +
+    ($("phone").value || "");
+
+
+  $("outEmail").textContent =
+    "✉ " +
+    ($("email").value || "");
+
+
+  $("outLocation").textContent =
+    "📍 " +
+    ($("location").value || "");
+
+
+  $("siteHeader").style.background =
+    accent;
+
+
+  $("outButton").style.background =
+    accent;
+
+
+  $("hero").style.backgroundColor =
+    heroColor;
+
+
+  if(image){
+
+    $("hero").style.backgroundImage =
+      `url("${image}")`;
+
+  }else{
+
+    $("hero").style.backgroundImage =
+      "none";
+
+  }
+
+
+  document
+    .querySelectorAll(".icon")
+    .forEach(icon=>{
+
+      icon.style.background =
+        accent + "22";
+
+      icon.style.color =
+        accent;
+
+    });
+
+
+  $("site").style.fontFamily =
+    $("font").value +
+    ", sans-serif";
+
 }
 
 
 function setView(type){
 
- if(type === "mobile"){
-  $("site").classList.add("mobile");
-  $("mobileBtn").classList.add("active");
-  $("desktopBtn").classList.remove("active");
- }else{
-  $("site").classList.remove("mobile");
-  $("desktopBtn").classList.add("active");
-  $("mobileBtn").classList.remove("active");
- }
+  if(type === "mobile"){
+
+    $("site")
+      .classList.add("mobile");
+
+    $("mobileBtn")
+      .classList.add("active");
+
+    $("desktopBtn")
+      .classList.remove("active");
+
+  }else{
+
+    $("site")
+      .classList.remove("mobile");
+
+    $("desktopBtn")
+      .classList.add("active");
+
+    $("mobileBtn")
+      .classList.remove("active");
+
+  }
 
 }
 
 
 function toggleSection(id){
- $(id).classList.toggle("hidden");
+
+  $(id)
+    .classList.toggle("hidden");
+
 }
 
 
-function openFullPreview(){
+function backHome(){
 
- const siteHTML = $("site").outerHTML;
+  document
+    .getElementById("editor")
+    .classList.remove("visible");
 
- const styles = document.querySelector("style").innerHTML;
+  document
+    .getElementById("welcome")
+    .style.display="block";
 
- const page = `
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>${escapeHTML($("name").value || "Meu Site")}</title>
-<style>
-${styles}
-body{
- margin:0;
- background:#fff;
-}
-.site{
- max-width:none!important;
- width:100%!important;
- min-height:100vh;
- border-radius:0;
- box-shadow:none;
-}
-</style>
-</head>
-<body>
-${siteHTML}
-</body>
-</html>`;
+  setTimeout(()=>{
 
- const blob =
-  new Blob([page],{type:"text/html"});
+    document
+      .getElementById("welcome")
+      .classList.remove("hide");
 
- const url =
-  URL.createObjectURL(blob);
+  },20);
 
- window.open(url,"_blank");
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
- setTimeout(()=>{
-  URL.revokeObjectURL(url);
- },60000);
-}
-
-
-function downloadSite(){
-
- const siteHTML = $("site").outerHTML;
-
- const styles = document.querySelector("style").innerHTML;
-
- const page = `
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>${escapeHTML($("name").value || "Meu Site")}</title>
-<style>
-${styles}
-body{margin:0;background:#fff}
-.site{
- max-width:none!important;
- width:100%!important;
- margin:0!important;
- border-radius:0!important;
- box-shadow:none!important;
-}
-</style>
-</head>
-<body>
-${siteHTML}
-</body>
-</html>`;
-
- const blob =
-  new Blob([page],{type:"text/html"});
-
- const url =
-  URL.createObjectURL(blob);
-
- const a =
-  document.createElement("a");
-
- a.href=url;
- a.download="meu-site.html";
-
- document.body.appendChild(a);
- a.click();
- a.remove();
-
- setTimeout(()=>{
-  URL.revokeObjectURL(url);
- },1000);
 }
 
 
 function resetSite(){
 
- if(confirm("Deseja reiniciar o projeto?")){
-  location.reload();
- }
+  if(
+    confirm(
+      "Deseja reiniciar o projeto?"
+    )
+  ){
+
+    location.reload();
+
+  }
+
+}
+
+
+function openFullPreview(){
+
+  const siteHTML =
+    $("site").outerHTML;
+
+  const styles =
+    document.querySelector("style").innerHTML;
+
+
+  const page = `
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+>
+
+<title>
+${escapeHTML(
+  $("name").value ||
+  "Meu Site"
+)}
+</title>
+
+<style>
+
+${styles}
+
+body{
+margin:0;
+background:#fff;
+}
+
+.site{
+max-width:none!important;
+width:100%!important;
+margin:0!important;
+border-radius:0!important;
+box-shadow:none!important;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${siteHTML}
+
+</body>
+
+</html>`;
+
+
+  const blob =
+    new Blob(
+      [page],
+      {type:"text/html"}
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+
+  setTimeout(
+    ()=>{
+      URL.revokeObjectURL(url);
+    },
+    60000
+  );
+
+}
+
+
+function downloadSite(){
+
+  const siteHTML =
+    $("site").outerHTML;
+
+  const styles =
+    document.querySelector("style").innerHTML;
+
+
+  const page = `
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+>
+
+<title>
+${escapeHTML(
+  $("name").value ||
+  "Meu Site"
+)}
+</title>
+
+<style>
+
+${styles}
+
+body{
+margin:0;
+background:#fff;
+}
+
+.site{
+max-width:none!important;
+width:100%!important;
+margin:0!important;
+border-radius:0!important;
+box-shadow:none!important;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${siteHTML}
+
+</body>
+
+</html>`;
+
+
+  const blob =
+    new Blob(
+      [page],
+      {type:"text/html"}
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+
+  const a =
+    document.createElement("a");
+
+
+  a.href=url;
+
+  a.download=
+    "meu-site.html";
+
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+
+  setTimeout(
+    ()=>{
+      URL.revokeObjectURL(url);
+    },
+    1000
+  );
 
 }
 
 
 function escapeHTML(value){
 
- return String(value)
-  .replace(/&/g,"&amp;")
-  .replace(/</g,"&lt;")
-  .replace(/>/g,"&gt;")
-  .replace(/"/g,"&quot;")
-  .replace(/'/g,"&#039;");
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
+
+/* Inicialização */
 
 render();
 
